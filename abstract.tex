@@ -1,0 +1,21 @@
+\chapter*{Abstract}
+\markboth{Abstract}{Abstract}
+%\addcontentsline{toc}{chapter}{Abstract}
+
+Thesis abstract.
+
+The task I was given was detecting clothing and shoes in real world images -- the IMP Lab team had previously only trained the algorithms using studio quality images (of shoes).
+
+What I did was use an existing neural network and search for a dataset to train it for detecing clothing on user generated images. This means that the program (for which I created a Command Line Interface) takes as imput an image file (or a URL to an image) and returns a processed image; in which annotations such as whether the person is wearing pants, skirts, a dress, footwear or other labels are appended and shown, with a squared bounding box and a corresponding mask inside.
+
+The dataset I found is called Modanet, and it is based off really the Paperdoll dataset. Modanet (by eBay researchers) has put annotations to this enormous dataset (about 1 million images)[but only 55k are annotated].
+
+So the work I've done is integrating the dataset with the training algorithm. Fortunately, the Modanet annotations already used COCO's style, but the images were in an SQL database I had to extract (and then put the extraction program into a one-click CLI process!).
+Then, I had to create another program that split the annotations into training, validation and test and organized them correctly. The first few weeks were very disappointing and it felt like combining this particular dataset was an impossible feat. It turned out that the lab computer Keras bad installation was also at fault.
+Really the first assignment I was given, which I solved relatively quickly, was, using the default image provided and the default weights of MaskRCNN, to cut the image into several segments, each one showing only one object (annotation).
+
+After completing the first phase (i.e. the "making it work" one), I was advised to create a package for one-click install of the things I had done to make it work.
+
+In the meantime, at dark times when I couldn't go forward without some advising, I let the computer do its things and run the training algorithms. The most I managed to keep it running was about 3-4 days (the computer was shared amongst other researchers and thesists). I managed to reach epoch 28, and I got quite nice results, even though it has a hard time recognizing both feet's footwear most of the time. 
+
+I also made nice customizable viewing commands to see the processed images, and to quickly scan through the validation set (via the --set-all option) to see if the algorithm has improved or not based on your training.
