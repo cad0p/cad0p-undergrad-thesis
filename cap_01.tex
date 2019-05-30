@@ -601,7 +601,7 @@ Backpropagation can be summarized as follows:
 % TODO: what to do with multiple outputs
 
 
-\begin{figure}[t]
+\begin{figure}[H]
 	\begin{center}
 		\begin{tikzpicture}[auto, node distance=0.3cm]
 		\matrix (m) [matrix of math nodes, 
@@ -887,7 +887,7 @@ The rest of the chapter describes the blocks implemented in \matconvnet, with a 
 \subsection{Convolution}\label{s:convolution}
 % ------------------------------------------------------------------
 
-\begin{figure}[t]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/svg/conv}
 	\caption{\textbf{Convolution.} The figure illustrates the process of filtering a 1D signal $\bx$ by a filter $f$ to obtain a signal $\by$. The filter has $H'=4$ elements and is applied with a stride of $S_h =2$ samples. The purple areas represented padding $P_-=2$ and $P_+=3$ which is zero-filled. Filters are applied in a sliding-window manner across the input signal. The samples of $\bx$ involved in the calculation of a sample of $\by$ are shown with arrow. Note that the rightmost sample of $\bx$  is never processed by any filter application due to the sampling step. While in this case the sample is in the padded region, this can happen also without padding.}\label{f:conv}
@@ -1383,7 +1383,7 @@ Image classification analyzes the numerical properties of various image features
 	\item Reliable, all image features within a training group should share the common definitive descriptions of that group.
 \end{enumerate}
 
-A convenient way of building a parametric description of this sort is via a feature vector v1,v2,………,vn where n is the number of attributes which describe each image feature and training class. This representation allows us to consider each image feature as occupying a point, and each training class as occupying a sub-space (i.e. a representative point surrounded by some spread, or deviation), within the n-dimensional classification space. Viewed as such, the classification problem is that of determining to which sub-space class each feature vector belongs.
+A convenient way of building a parametric description of this sort is via a feature vector $v1,v2,\dots,vn$ where $n$ is the number of attributes which describe each image feature and training class. This representation allows us to consider each image feature as occupying a point, and each training class as occupying a sub-space (i.e. a representative point surrounded by some spread, or deviation), within the n-dimensional classification space. Viewed as such, the classification problem is that of determining to which sub-space class each feature vector belongs.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{images/classification_detection_segmentaion_comparisons.jpeg}
@@ -1436,13 +1436,47 @@ The previous state-of-the-art image segmentation systems used Fully Convolutiona
 	\caption{Image with semantic segmentation.}
 \end{figure}
 Oxford researchers have developed a neural network component for semantic segmentation that harnesses the exceptional object recognition of FCNNs and the powerful boundary delineation of CRFs. CRFs are fully integrated as recurrent neural networks, resulting in a system that offers enhanced performance compared to the previous state-of-the-art. The novel system can be applied to any task that involves the segmentation of visual information. Examples include road segmentation for autonomous vehicles, medical image segmentation, scene segmentation for robot perception, and in image editing tools. Oxford University Innovation is seeking industrial partners that wish to explore the use of this system for commercial applications.
-\subsubsection{Instance Segmentation}\label{s:patt-insta}
+\subsection{Instance Segmentation}\label{s:patt-insta}
 Instance segmentation is one step ahead of semantic segmentation wherein along with pixel level classification, we expect the computer to classify each instance of a class separately. For example in the image above there are 3 people, technically 3 instances of the class “Person”. All the 3 are classified separately (in a different color). But semantic segmentation does not differentiate between the instances of a particular class.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{images/instance.png}
 	\caption{Image with instance segmentation.}
 \end{figure}
+
+
+
+% ------------------------------------------------------------------
+\section{NN evolution for Instance Segmentation}\label{s:nnevo}
+% ------------------------------------------------------------------
+
+\subsection{Introduction}\label{s:nnevo-intro}
+
+Images and videos are collected everyday by different sources. Recognizing objects, segmenting localizing and classifying them has been a major area of interest in computer vision. Significant progress has been made commencing from use of low-level image features, such as \emph {Scale Invariant Feature Transform}  SIFT [A] and \emph{ Histogram of Oriented Gradients HOG }[B] , in sophisticated machine learning frameworks to the use of multi-layer convolutional networks to compute highly discriminative, and invariant features [C]. SIFT and HOG are feature descriptor and semi-local orientation histograms that counts occurrences of gradient orientation in localized portions of an image. 
+
+\subsection{Convolutional Neural Network}\label{s:nnevo-cnn}
+
+Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} [D], a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)[C] can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM), in 2012 it was revitalize by Krizhevsky et al. [D] by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) [E] and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. To perform object detection with CNN and in attempt to bridge the gap between image segmentation and object detection two issues were fixed by R.Girshick et al [C]. First was the localization of objects with a Deep Network and training a high-capacity model with only a small quantity of annotated detection data. Use of a sliding-window detector was proposed for the localization of object but was not preferred because it can only work for one object detection and all objects in an image have to have a common aspect ratio for its use in multiple object detection. Instead the localization problem was solved by operating within the “recognition using regions” paradigm.
+
+\subsection{Regional CNN}\label{s:nnevo-rcnn}
+
+Work in progress\dots\dots
+
+\subsection{Fast R-CNN}\label{s:nnevo-fastrcnn}
+
+Fast R-CNN was introduced in 2015 by Girshick [F]. A single-stage training algorithm that jointly learns to classify object proposals and refine their spatial locations was demonstrated. This tackled the problem of complexity that arises in other deep ConvNets [D,G, H], caused by the multi-stage pipelines that are slow. The slow nature is due to the fact that detection requires accurate localization of objects that creates the challenge of that many proposals (candidate object locations) must be processed and these proposals provides only rough localization that must be refined to achieve precise localization. Fast R-CNN is 9 X faster than R-CNN [C] and 3 X faster than SPPnet [I]. R-CNN was speed up by \emph{Spatial pyramid pooling networks (SPPnets)}[I] by sharing computation. A convolutional feature map for the entire input image was computed by SPPnet method. After which it then classifies each object proposal using a feature vector extracted from the shared feature map. SPPnet also has obvious pitfalls. It is a multi-stage pipeline similar to R-CNN that involves extracting features, refining a network with log loss, training SVMs, and lastly fitting bounding-box regressors. Features are also written to disk. But unlike R-CNN, the refining algorithm demonstrated in SPPnet cannot update the convolutional layers that precede the spatial pyramid pooling. This constraint limits the accuracy of very deep networks.
+
+\subsection{Faster R-CNN}\label{s:nnevo-fasterrcnn}
+
+Additional efforts were made to reduce the running time of deep ConvNets for object detection and segmentation. Regional proposal computation is the root of this expensive running time in detection networks. A fully convolutional network that simultaneously predicts object bounds and objectness scores at each position called \emph{ Region Proposal Network (RPN) }was developed by Ren et al [J]. RPN shares full-image convolutional features with the detection network, thus permitting virtually cost-free region proposals and it is trained end-to-end to generate high-quality region proposals. Integrating RPN and Fast R-CNN into a unit network by sharing their convolutional features results to Faster R-CNN. Anchor boxes that acts as reference at multiple scales and aspect ratios were introduced in Faster R-CNN instead of the pyramids of filters used in earlier methods. RPNs are developed to coherently speculate region proposals with an extensive range of scales and aspect ratios.
+
+Changing the architecture of the pyramids of filter to a top-down architecture with lateral connections improved the efficiency of this pyramids [K]. This is applied in building high-level semantic feature maps at all scales. This new architecture is called \emph{ Feature Pyramid Network (FPN)} [K]. In various applications and uses it displayed a notable improvement as a generic feature extractor. When used in a Faster R-CNN it achieved results that supersedes that of Faster R-CNN alone. 
+
+\subsection{Mask R-CNN}\label{s:nnevo-maskrcnn}
+
+In order to generate a high-quality segmentation mask for object instances in an image, Mask R-CNN was developed [L]. Mask R-CNN add another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN.
+
+
 
 % ------------------------------------------------------------------
 \section{Implementation details}\label{s:impl}
