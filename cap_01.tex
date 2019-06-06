@@ -53,10 +53,76 @@ They can learn in 3 main ways:
 \end{enumerate}
 For our purpose, I seeked to find a labeled dataset, because to recognize clothes and apparel we needed labeled images to let the algorithm know which is which.
 
+Here are some basic words we need to know:
+\begin{itemize}
+	\item Label:
+		The thing we're trying to predict. Ex: If we're trying to predict what kind of animal is in a picture, the label would be the type of animal in the picture.
+	\item Classification:
+		Taking each instance and assigning it to a particular category. Ex: Determining if tumors are benign or malignant by looking at MRI scans.
+	\item Regression:
+		Instead of having discrete classes, like classification, the "class" to be predicted is made up of continuous numerical values. Ex: Predicting house prices based on square footage, number of rooms, etc.
+	\item Clustering:
+		For data without pre-labeled classes, clustering is the act of grouping similar data points together. A form of unsupervised learning. Ex: Clustering U.S. households for marketing data.
+	\item Training Data:
+		The initial set of data used to discover potentially predictive relationships. It's what your machine learning algorithm "trains" on and learns patterns from.
+	\item Validation and Testing Data:
+		Set of data used to assess the strength and utility of predictive relationship. Your machine learning algorithm does not see this data during training.
+	\item Error:
+		The difference between algorithm's prediction and ground-truth values.
+	\item Ground Truth:
+		Data that is known to be correct. A data-set's labels.
+	\item Features:
+		The attributes of the data that are used to make a prediction about the labels. Ex: In the house price example in the regression definition, the features would be the square footage, number of rooms, etc.
+	\item Feature space:
+		The n-dimensions in which the features live where n = the number of features. Typically, the larger the feature space, the more complex your algorithm will be.
+	\item Model:
+		The relationship between features and label. Training means "learning" this relationship based on examples.
 
-% ------------------------------------------------------------------
+
+	
+\end{itemize}
+Let's briefly explain some concepts before diving into Neural Networks:
+
+\subsubsection{Towards NNs}\label{s:fund-intro-tonn}
+\begin{enumerate}
+	\item Overfitting:
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.4]{images/overfitting.png}
+			\caption{Overfitting on a simple separation problem}
+			\label{f:overfitting}
+		\end{figure}
+		Simply put, overfitting means overgeneralizing narrow concepts. In the image above we can clearly see that the semantic line we should follow is the black one, even though, for this \emph{particular} dataset, the green line would produce the best results.
+		What the green separation is doing is not grasping the shape of the separation, but picking up the intrinsic noise of real problems.
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=1.2]{images/overfittinglines.png}
+			\caption{Recognizing overfitting}
+			\label{f:overfittinglines}
+		\end{figure}
+		It's easy to recognize overfitting when training. I the error rates start to diverge, it usually is because of it. Avoiding it requires having a broad dataset that is balanced on the features.
+	\item Decision Trees:
+		
+		They narrow down objects into classes by using binary questions repeatedly.
+	\item Random Forests:
+		
+		A number of Decision Trees grouped together to identify multiple features.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.4]{images/featureimportance.jpg}
+			\caption{Feature Importance using Random Trees}
+			\label{f:featureimportance}
+		\end{figure}
+		They can be also used to measure the importance a particular feature. In fact, while usually the most important features in a tree are the top level ones, in random forests you have more than one tree, so a good way to find the importance of a feature is averaging the depth of the level where the feature is present in all the trees of the forest. In the image above, the features are the single pixels.
+	\item 
+\end{enumerate}
+
+
+
+
 \subsection{What problems do they solve}\label{LearningTasks}
-% ------------------------------------------------------------------
+
 
 \begin{figure}[H]
 	\begin{center}
@@ -203,6 +269,234 @@ optimal control, optimal shape design and inverse problems can also be very usef
 \end{figure}
 
 
+
+\subsection{The Perceptron}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/2MVdW}
+	\caption{The Perceptron}
+	\label{f:perceptron}
+\end{figure}
+\subsubsection{Definition}
+
+A perceptron is the fundamental unit of a Neural Network (which is even called a Multi-Layer Perceptron for this reason). Refer to the diagram above. Perceptrons contain two or more inputs, a weight for each input, a bias, an activation function (the step function) and an output.
+For the perceptron above with $2$ inputs, the intermediate value $f(x)$ is as follows
+\[f(x) = w_1x_1 + w_2x_2 + b\]
+The final output $y$ is just the step function:
+\[
+y =
+\begin{cases}
+0 & \text{if $f(x) < 0$} \\
+1 & \text{if $f(x) > 0$}
+\end{cases}
+\]
+\subsubsection{Visualization}
+
+The purpose of a perceptron is to classify data. Consider the function AND.
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		x1 & x2 & out \\
+		\hline
+		0 & 0 & 0 \\ 
+		0 & 1 & 0 \\ 
+		1 & 0 & 0 \\ 
+		1 & 1 & 1 \\ 
+		\hline
+	\end{tabular}
+\end{center}
+Let's graph this data.
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis lines=middle,
+	xmin=-1, xmax=2,
+	ymin=-1, ymax=2,
+	xtick=\empty, ytick=\empty
+	]
+	\addplot [only marks] table {
+		0 0
+		0 1
+		1 0
+	};
+	\addplot [only marks, mark=o] table {
+		1 1
+	};
+	\addplot [domain=-10:10, samples=2, dashed] {-1*x+1.5};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+The line $y = -x + 1.5$ splits this data the best.
+Let's rearrange this to get $x + y - 1.5 = 0$. 
+Going back to the perceptron formula
+\[f(x) = w_1x_1 + w_2x_2 + b\]
+we can see that for the optimal perceptron,  $w_1$ and $w_2$ are the coefficients of $x$ and $y$, and $b=-1.5$. If $f(x) > 0$, then $x + y - 1.5>0$. We can see through this example that perceptrons are nothing more than linear functions. Above a line, perceptrons classify data points $1$, below the line, they are $0$.
+
+\subsubsection{Learning}
+
+How do perceptrons "learn" the best possible linear function to split the data? Perceptrons adjust the weights and bias to iteratively approach a solution.
+
+Let's consider this data:
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis lines=middle,
+	xmin=-3, xmax=3,
+	ymin=-3, ymax=3,
+	xtick=1, ytick=1,
+	]
+	\addplot [only marks] table {
+		0 0
+		-1 2 
+		1 -2
+		-1 -2
+		-2 0
+	};
+	\addplot [only marks, mark=o] table {
+		1 1
+		0 2
+		2 2
+		1 3
+		1 0
+	};
+	\addplot [domain=-10:10, samples=2, dashed] {-1*x+1.5};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+The perceptron that represents the dashed line $y+x-1.5=0$ has two inputs, $x_1, x_2,$ with corresponding weights $w_1=1, w_2=1$, and bias $b = -1.5$. Let $y$ represent the output of this perceptron. In the data above, the point $(1, 0)$ is the only misclassified point. The perceptron outputs 0 because it is below the line, but it should output a 1.
+
+For some data point (input) $i$ with coordinates $(i_1, i_2)$, the perceptron adjusts its weights and bias according to this formula:
+\[w_1 = w_1 + \alpha(d-y)(i_1)\]
+\[w_2 = w_2 + \alpha(d-y)(i_2)\]
+\[b = b + \alpha(d-y)\]
+Where $d$ is the desired output, and $\alpha$ is the learning rate, a constant usually between $0$ and $1$. Notice that the equation degenerates to $w = w$ and $b=b$ when the desired output equals the perceptron output. In other words, the perceptron only learns from misclassified points.
+
+In the case of the above data, the perceptron only learns from the point $(1, 0)$. Let's set $\alpha=0.2$ and compute the learning steps:
+\[w_1 = 1 + 0.2(1-0)(1) = 1.2\]
+\[w_2 = 1 + 0.2(1-0)(0) = 1\]
+\[b = -1.5 + 0.2(1-0) = -1.3\]
+
+After 1 iteration, the perceptron now represents the function $y+1.2x-1.3 = 0$, which is shown below:
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis lines=middle,
+	xmin=-3, xmax=3,
+	ymin=-3, ymax=3,
+	xtick=1, ytick=1,
+	]
+	\addplot [only marks] table {
+		0 0
+		-1 2 
+		1 -2
+		-1 -2
+		-2 0
+	};
+	\addplot [only marks, mark=o] table {
+		1 1
+		0 2
+		2 2
+		1 3
+		1 0
+	};
+	\addplot [domain=-10:10, samples=2, dashed] {-1.2*x+1.3};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+The next iteration follows:
+\[w_1 = 1.2 + 0.2(1-0)(1) = 1.4\]
+\[w_2 = 1 + 0.2(1-0)(0) = 1\]
+\[b = -1.3 + 0.2(1-0) = -1.1\]
+
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis lines=middle,
+	xmin=-3, xmax=3,
+	ymin=-3, ymax=3,
+	xtick=1, ytick=1,
+	]
+	\addplot [only marks] table {
+		0 0
+		-1 2 
+		1 -2
+		-1 -2
+		-2 0
+	};
+	\addplot [only marks, mark=o] table {
+		1 1
+		0 2
+		2 2
+		1 3
+		1 0
+	};
+	\addplot [domain=-10:10, samples=2, dashed] {-1.4*x+1.1};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+All the points are now correctly classified. The perceptron has learned! Notice how it has not learned the best possible line, only the first one that zeroes the difference between expected and actual output.
+\subsubsection{Non-Linearly Separable Data}
+Consider the function XOR:
+
+\begin{center}
+	\begin{tabular}{ |c|c|c| } 
+		\hline
+		x1 & x2 & out \\
+		\hline
+		0 & 0 & 1 \\ 
+		0 & 1 & 0 \\ 
+		1 & 0 & 0 \\ 
+		1 & 1 & 1 \\ 
+		\hline
+	\end{tabular}
+\end{center}
+Let's graph this data.
+\begin{center}
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis lines=middle,
+	xmin=-1, xmax=2,
+	ymin=-1, ymax=2,
+	xtick=\empty, ytick=\empty
+	]
+	\addplot [only marks] table {
+		0 1
+		1 0
+	};
+	\addplot [only marks, mark=o] table {
+		0 0
+		1 1
+	};
+	\addplot [domain=-10:10, samples=2, dashed] {-1*x+1.5};
+	\addplot [domain=-10:10, samples=2, dashed] {-1*x+0.5};
+	\end{axis}
+	\end{tikzpicture}
+\end{center}
+
+We need two lines to separate this data! A perceptron will never reach the optimal solution. However, multiple perceptrons can learn multiple lines, which can be used to classify non-linearly separable data.
+
+\subsubsection{Multi-Layer Perceptron}
+A neural network (NN) or Multi-Layer Perceptron (MLP) is a bunch of these perceptrons glued together, and can be used to approximate multi-dimensional non-linearly separable data.
+Let us again consider XOR. How do we arrange perceptrons to represent the two functions?
+
+Clearly, we need two perceptrons, one for each function. The output of these two perceptrons can be used as inputs to a third perceptron, which will give us our output. Refer to the diagram below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{images/Frame}
+	\caption{Multi-Layer Perceptron}
+	\label{f:Frame}
+\end{figure}
+
+Let perceptron 1 model $y + x - 1.5 = 0$ (the upper line), and perceptron 2 model $y + x - 0.5 = 0$ (the lower line). Because the weights are the coefficients of these functions, $w_1 = 1, w_2 = 1, w_3 = 1, w_4 = 1$ and the biases $b_1 = -1.5$ and $b_2 = -0.5$.
+
+The output of Perceptron 1 will be a 1 for points above the upper line, and a 0 for the points below the upper line. The output of Perceptron 2 will be a 1 for points above the lower line, and a 0 for points below the lower line. In between the lines, these cancel! However, in order to create a threshold to separate the points between the lines from the points outside, we would like the outputs for points between the lines to be additive.
+
+In other words, we would like the inputs of Perceptron 3 to both be 1 between the lines, and have a maximum of a single 1 for points outside the lines. Thus, we let $w_6 = 1$ and $w_5 = -1$. This gives us an output of $2$ for points between the lines, and a maximum output of 1 for points outside the lines. Thus, we can set the bias for Perceptron 3: $b_3 = -1.5$.
 
 
 % ------------------------------------------------------------------
@@ -1064,7 +1358,6 @@ Detailed calculation of the derivatives is provided in \cref{s:impl-pooling}.
 \subsection{Activation functions}\label{s:activation}
 % ------------------------------------------------------------------
 
-\matconvnet supports the following activation functions:
 %
 \begin{itemize}
 	\item \emph{ReLU.} $vl_nnrelu$ computes the \emph{Rectified Linear Unit} (ReLU):
@@ -1500,6 +1793,182 @@ Changing the architecture of the pyramids of filter to a top-down architecture w
 \subsection{Mask R-CNN}\label{s:nnevo-maskrcnn}
 
 In order to generate a high-quality segmentation mask for object instances in an image, Mask R-CNN was developed [L]. Mask R-CNN add another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN.
+
+
+\section{Mask R-CNN}\label{s:maskrcnn}
+
+Instance Segmentation is one of the most difficult image-based computer vision tasks. It combines elements of semantic segmentation (pixel-level classification) and object detection (instance recognition). Essentially, at every pixel, we wish to classify not only the type of object (or background) the pixel is part of, but also determine which instance the pixel is part of.
+
+\begin{center}
+	\includegraphics[scale=0.3]{images/tasks.PNG}
+\end{center}
+
+Not unsurprisingly, instance segmentation networks rely heavily on existing object detection networks. This lecture will cover one particular instance segmentation network, called Mask R-CNN. Mask R-CNN modifies the Faster R-CNN architecture and adapts it for instance segmentation with minimal overhead. Mask R-CNN is the current leader in instance segmentation performance.
+
+This lecture is designed for students with understanding of object detection networks. If you are unfamiliar with R-CNN, Fast R-CNN, or Faster R-CNN, read our lecture ``Object Detection" before proceeding.
+
+Mask R-CNN is a modification of the Faster R-CNN architecture. The authors noticed that a previous ``fully convolutional instance segmentation" (FCIS) solutions, which performed segmentation, classification, and bounding-box regression simultaneously, although they ran fast, exhibited low segmentation accuracy, especially on overlapping objects. Mask R-CNN therefore takes a different approach, \textit{decoupling} segmentation from classification and bounding-box regression. Mask R-CNN thus adds a separate mask ``head" to the Faster R-CNN network. This is shown in the diagram below.
+
+The mask ``head" is simply a small fully convolutional network that outputs an $m\times m$ mask for each region proposal. We use a fully convolutional network rather than fully connected layers so we do not lose spatial information. A fully convolutional solution requires fewer parameters than previous fully connected solutions while simultaneously increasing accuracy.
+
+The two diagrams at the bottom of Page 2 show a different visualization of Faster R-CNN and Mask R-CNN. Besides the additional ``mask" head of Mask R-CNN, you may have noticed RoIAlign replacing RoI Pooling. We will cover this in the next section.
+
+\begin{center}
+	\includegraphics[scale=0.36]{images/masknetwork.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.45]{images/fasterrcnn.PNG}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.45]{images/maskrcnn.PNG}
+\end{center}
+
+\subsection{RoIAlign}
+If you are unfamiliar or have forgotten RoI Pooling, please refer back to Section 3.2 in our lecture ``Object Detection". RoAlign is simply a more precise version of RoI Pooling. 
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/roialign1.PNG} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/roialign2.PNG} %second
+		%figure itself
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/roialign3.PNG} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/roialign4.PNG} %second
+		%figure itself
+		\caption{$2\times2$ values per cell.}
+	\end{minipage}
+\end{figure}
+
+\begin{center}
+	\includegraphics[scale=0.35]{images/roialign5.PNG}
+\end{center}
+
+Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. Unlike RoI Pooling, these regions will contain the exact same number of pixels, so we will often have fractional pixels. From each grid cell, we sample four regions as shown by the red $\times$ marks in the third image. We then subdivide each grid cell into four subcells, each centered on an $\times$. We perform bilinear interpolation to get a single value for each subregion, or four values for each cell. These values are shown in the fourth image. Finally, we perform a simple max pooling on the bilinear interpolated values, taking the maximum value per cell to reach an $N\times N$ output. This output is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up our masking head.
+
+Of course, you should have one question remaining: What exactly is bilinear interpolation?
+
+\subsubsection{Bilinear Interpolation}
+Bilinear interpolation is fairly trivial. It is best understood visually. Simply put, the bilinearly interpolated value at the black spot is the sum of the values of each of the four colors multiplied by the areas of their respective rectangles, divided by the total area.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.4\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/bilinear.png} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.6\textwidth}
+		\centering
+		\includegraphics[width=0.8\textwidth]{images/roibilinear.PNG} %second
+		%figure itself
+		\caption{Bilinear interpolation for RoIAlign.}
+	\end{minipage}
+\end{figure}
+
+Note how in the figure on the left, the red pixel value corresponds to the smaller area opposite the pixel. This is because closer pixels (like the yellow one) have greater weighting.
+The figure on the right makes it clear how bilinear interpolation is implementaed in RoIAlign. At each blue dot (represented with a red $\times$ in the figures on the previous page), we take the closest 4 pixel values and multiply them by the respective areas.
+
+And that's all RoIAlign is. It achieves the same goal as RoI Pooling, which is to take a region of any shape and create a fixed output. However, because we are using fractional pixels, we can get much better alignment. This simple change resulted in considerable accuracy improvements for Mask R-CNN.
+
+\subsection{Mask Head}
+Depending on the network backbone, the mask head differs for Mask R-CNN. Below is a look at the two different heads. Both are trivial FCNs.
+
+\begin{center}
+	\includegraphics[scale=0.3]{images/backbones.PNG}
+\end{center}
+
+In the diagram above, FPN stands for ``Feature Pyramid Network". You should already be familiar with ResNet.
+
+There are a few important things to know about this mask head. First, like we said earlier, our output is an $m\times m$ mask. However, the authors found it beneficial to have binary masks. In other words, we predict $K$ $m\times m$ masks for each RoI, where $K$ is the number of classes. One mask per class. Thus, the mask branch has a $Km^2$-dimensional output for each region of interest.
+
+Our loss function is now different. Previously, we had $L = L_{boundingbox} + L_{classification}$. We've covered the details of classification and bounding-box loss in our object detection, for both the region proposal network (RPN) and the network itself. For Mask R-CNN, we add another loss, $L_{mask}$. For some region $r$, if the ground truth class is $k$, we apply a per-pixel sigmoid on \textit{only} the $k$th mask. This allows us to define $L_{mask}$ as the average binary cross-entropy loss. Thus, the masks for classes that don't correspond to the ground truth aren't calculated. (remember, we have one mask per class for every region).
+
+By computing one mask per class, we are \textit{decoupling} classification and segmentation. We simply don't care what class the object is when we segment it. Previous practices, like FCNs for semantic segmentation, use multi-class cross-entropy losses and per-pixel softmax. These allows for competition between classes, which Mask R-CNN eliminates.
+
+\subsection{Training and Testing}
+When training, Mask R-CNN shares similarities with its object detection cousins. Hyperparameters were set to the same values. Positive RoIs have IoU of at least 0.5 with the ground truth box. In addition, $L_{mask}$ is defined only on positive RoIs. The mask target is the intersection between an RoI and its associated ground-truth mask. 
+
+At test time, after non-maximum supression is applied, the masking branch is applied on only the top 100 RoIs. If an region was classified into class $k$, we simply choose the $k$th mask. The mask is then resized to the size of the region of interest. By reducing segmentation computation to only 100 regions, we dramatically decrease the amount of overhead. In fact, Mask R-CNN runs at 5 fps, compared to Faster R-CNN's 7 fps.
+
+\subsection{Model Performance}
+The Mask R-CNN paper not only provides evidence that their model outperforms all previous models, but also conducted various ablation experiments to show that RoIAlign, segmentation decoupling, and fully convolutional mask heads each individually improve accuracy. The results are shown in the tables below.
+
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.55\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/moreroialigncomparison.PNG} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.35\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/binarymaskcomparison.PNG} %second
+		%figure itself
+	\end{minipage}
+\end{figure}
+
+\begin{center}
+	\includegraphics[scale=0.4]{images/fcncomparison.PNG}
+\end{center}
+
+In addition, Mask R-CNN performs better with a deeper backbone CNN. However, it should be noted that the 5 fps speed was achieved using the shallow ResNet-50 network as a backbone.
+
+\begin{center}
+	\includegraphics[scale=0.4]{images/backbonecomparison.PNG}
+\end{center}
+
+The results on the COCO and Cityscapes benchmarks are shown below. Mask R-CNN performs with state-of-the-art accuracy on both.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.85\textwidth]{images/cocoresults.PNG} % first
+	\caption{COCO results.}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1\textwidth]{images/cityscapesresults.PNG} % first
+	\caption{Cityscapes results.}
+\end{figure}
+
+Some segmentation examples from the two benchmarks are provided below. Segmentation examples from COCO are on the left; Cityscapes is on the right.
+
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.35\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/cocoexamples.PNG} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.65\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/cityscapes.PNG} %second
+		%figure itself
+	\end{minipage}
+\end{figure}
+
+Mask R-CNN can also be used for human pose estimation. We refer readers to the Mask R-CNN paper.
+
+\subsection{Conclusion}
+Mask R-CNN leaps ahead of the competition in terms of pure instance segmentation performance. However, no current instance segmentation method can achieve great results while operating in real-time (60 FPS). In the future, look for networks which dramatically improve segmentation speed as well as accuracy.
 
 
 

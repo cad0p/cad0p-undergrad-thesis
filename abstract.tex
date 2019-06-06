@@ -12,8 +12,14 @@ So the work I've done is integrating the dataset with the training algorithm. Fo
 Then, I had to create another program that split the annotations into training, validation and test and organized them correctly. The first few weeks were very disappointing and it felt like combining this particular dataset was an impossible feat. It turned out that the lab computer Keras bad installation was also at fault.
 Really the first assignment I was given, which I solved relatively quickly, was, using the default image provided and the default weights of MaskRCNN, to cut the image into several segments, each one showing only one object (annotation).
 
+As for the splitting datasets annotations task, I made two revisions. The first one splitted by annotations but left some images in more than one set. So you could have had the same image on different sets but some annotations for that image were in one set and some in the other. This created confusion in the algorithm, but made the task of creating a heterogeneous and balanced training set easier. Second revision was the more classic (I then discovered) approach: putting an image in only one set, and with all its annotations. This made the task of keeping the sets balanced in terms of categories of labels on each set, but I made it!
+
 After completing the first phase (i.e. the "making it work" one), I was advised to create a package for one-click install of the things I had done to make it work.
 
 In the meantime, at dark times when I couldn't go forward without some advising, I let the computer do its things and run the training algorithms. The most I managed to keep it running was about 3-4 days (the computer was shared amongst other researchers and thesists). I managed to reach epoch 28, and I got quite nice results, even though it has a hard time recognizing both feet's footwear most of the time. 
 
 I also made nice customizable viewing commands to see the processed images, and to quickly scan through the validation set (via the --set-all option) to see if the algorithm has improved or not based on your training.
+
+I then fixed a longtime error -- many annotations gave a warning of "invalid indexes" during training because they went outside the images' borders. This way, the dataset got twice as big in an instant, so I decided to redo all the tests.
+
+I then proceeded changing the hyperparameters on the training algorithm to analyze the effect they have on the model's accuracy.
