@@ -1,4 +1,4 @@
-%\PassOptionsToPackage{english}{babel}
+\PassOptionsToPackage{italian,english}{babel}
 \documentclass[12pt,a4paper,oneside,openright]{book}
 \usepackage{packages} % inserisce tutti le macro necessarie per il
                         % funzionamento
@@ -51,6 +51,8 @@
 \newcommand{\argmin}{\operatornamewithlimits{argmin}}
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\sign}{\operatornamewithlimits{sign}}
+\newcommand{\maskrcnn}{\textsc{Mask R-CNN}\xspace}
+\newcommand{\modanet}{\textsc{ModaNet}\xspace}
 
 \tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=3em]
 \tikzstyle{data} = []
@@ -99,7 +101,7 @@
 	\includegraphics[width=6cm]{images/logo.png}
 \end{figure}
 
-\title{Valutazione comparativa di instance-based segmentation di abbigliamento}
+\title{Valutazione comparativa di segmentazione di istanze di abbigliamento}
 
 \providecommand{\entitle}{Comparative evaluation of instance-based apparel segmentation}
 
@@ -111,6 +113,7 @@
 \providecommand{\annoacc}{2018/19}
 \providecommand{\tipo}{Triennale} % corso di laurea in ??
 \providecommand{\corso}{Informatica, Elettronica e delle Telecomunicazioni} % corso di laurea in ??
+\providecommand{\subtitle}{Detecting clothing and footwear in real world images} % sottotitolo?
 
 % genera la prima pagina
 

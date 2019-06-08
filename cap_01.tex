@@ -53,6 +53,7 @@ They can learn in 3 main ways:
 \end{enumerate}
 For our purpose, I seeked to find a labeled dataset, because to recognize clothes and apparel we needed labeled images to let the algorithm know which is which.
 
+
 Here are some basic words we need to know:
 \begin{itemize}
 	\item Label:
@@ -101,7 +102,7 @@ Let's briefly explain some concepts before diving into Neural Networks:
 			\caption{Recognizing overfitting}
 			\label{f:overfittinglines}
 		\end{figure}
-		It's easy to recognize overfitting when training. I the error rates start to diverge, it usually is because of it. Avoiding it requires having a broad dataset that is balanced on the features.
+		It's easy to recognize overfitting when training. If the error rates start to diverge, it usually is because of it. Avoiding it requires having a broad dataset that is balanced on the amount of annotations of each type.
 	\item Decision Trees:
 		
 		They narrow down objects into classes by using binary questions repeatedly.
@@ -115,7 +116,21 @@ Let's briefly explain some concepts before diving into Neural Networks:
 			\label{f:featureimportance}
 		\end{figure}
 		They can be also used to measure the importance a particular feature. In fact, while usually the most important features in a tree are the top level ones, in random forests you have more than one tree, so a good way to find the importance of a feature is averaging the depth of the level where the feature is present in all the trees of the forest. In the image above, the features are the single pixels.
-	\item 
+	\item Support Vector Machines:
+	
+		SVMs are widely used (\cref{s:nnevo-cnn}) to do supervised learning on both linear and non-linear classification.
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[scale=0.4]{images/svm.jpg}
+			\caption{Linear Classification on Support Vector Machine}
+			\label{fig:svm}
+		\end{figure}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[scale=0.18]{images/dimensions.jpg}
+			\caption{Non-Linear Classification on Support Vector Machine}
+			\label{fig:mapping}
+		\end{figure}
 \end{enumerate}
 
 
@@ -150,7 +165,7 @@ of what the response to the inputs should be \cite{Bishop1995}.
 While input variables might be quantitative or qualitative, in function regression target variables are quantitative. 
 
 Performance measures for function regression are based on a sum of errors between the outputs from the neural network and the targets in the training data. 
-As the training data is usually defficient, a regularization term might be required in order to solve the problem correctly.  
+As the training data is usually deficient, a regularization term might be required in order to solve the problem correctly.
 
 An example is to design an instrument that can determine serum cholesterol levels from
 measurements of spectral content of a blood sample. There are a number of 
@@ -158,7 +173,7 @@ patients for which there are measurements of several wavelengths of the spectrum
 For the same patients there are also measurements of several
 cholesterol levels, based on serum separation \cite{Demuth2009}. 
 
-\subsubsection{Pattern recognition}
+\subsubsection{Pattern recognition}\label{s:ltask-patt}
 
 The learning task of pattern recognition gives raise to artificial intelligence. That problem can be stated as
 the process whereby a received pattern, characterized by a distinct
@@ -248,18 +263,17 @@ acoustic waves sent at the surface and a mathematical model of soil mechanics.
 
 \subsubsection{Tasks companion diagram}
 
-As we have said, the knowledge for a neural network can be represented in the form of data sets or mathematical models. 
+The knowledge for a neural network can be represented in the form of data sets or mathematical models. 
 The neural network learns from data sets in function regression and pattern recognition; 
 it learns from mathematical models in optimal control and optimal shape design; 
 and it learns from both mathematical models and data sets in inverse problems. 
-Please note that other possible applications can be added to these learning tasks. 
 
 Figure \ref{LearningTasksFigure} shows the learning tasks for neural networks described in this section. 
 As we can see, they are capable of dealing with a great range of applications. 
-Any of that learning tasks is formulated as being a variational problem. 
-All of them are solved using the three step approach described in the previous section. 
 Modelling and classification are the most traditional; 
-optimal control, optimal shape design and inverse problems can also be very useful. 
+optimal control, optimal shape design and inverse problems can also be very useful.
+
+Our learning task, that \maskrcnn solves really well, is Pattern Recognition (\cref{s:ltask-patt}).
 
 \begin{figure}[h!]
 	\begin{center}
@@ -293,7 +307,9 @@ y =
 \subsubsection{Visualization}
 
 The purpose of a perceptron is to classify data. Consider the function AND.
-\begin{center}
+
+\begin{table}[H]
+	\centering
 	\begin{tabular}{ |c|c|c| } 
 		\hline
 		x1 & x2 & out \\
@@ -304,7 +320,9 @@ The purpose of a perceptron is to classify data. Consider the function AND.
 		1 & 1 & 1 \\ 
 		\hline
 	\end{tabular}
-\end{center}
+	\caption{Function AND}
+	\label{t:and}
+\end{table}
 Let's graph this data.
 \begin{center}
 	\begin{tikzpicture}
@@ -442,7 +460,8 @@ All the points are now correctly classified. The perceptron has learned! Notice 
 \subsubsection{Non-Linearly Separable Data}
 Consider the function XOR:
 
-\begin{center}
+\begin{table}[H]
+	\centering
 	\begin{tabular}{ |c|c|c| } 
 		\hline
 		x1 & x2 & out \\
@@ -453,7 +472,9 @@ Consider the function XOR:
 		1 & 1 & 1 \\ 
 		\hline
 	\end{tabular}
-\end{center}
+	\caption{Function XOR}
+	\label{t:xor}
+\end{table}
 Let's graph this data.
 \begin{center}
 	\begin{tikzpicture}
@@ -481,7 +502,7 @@ We need two lines to separate this data! A perceptron will never reach the optim
 
 \subsubsection{Multi-Layer Perceptron}
 A neural network (NN) or Multi-Layer Perceptron (MLP) is a bunch of these perceptrons glued together, and can be used to approximate multi-dimensional non-linearly separable data.
-Let us again consider XOR. How do we arrange perceptrons to represent the two functions?
+Let's again consider XOR. How do we arrange perceptrons to represent the two functions?
 
 Clearly, we need two perceptrons, one for each function. The output of these two perceptrons can be used as inputs to a third perceptron, which will give us our output. Refer to the diagram below.
 
@@ -563,13 +584,13 @@ Learning generally uses a variant of \emph{stochastic gradient descent} (SGD). W
 \end{figure}
 
 % ------------------------------------------------------------------
-\subsection{Network structures}\label{s:cnn-topology}
+\subsubsection{Network structures}\label{s:cnn-topology}
 % ------------------------------------------------------------------
 
 In the simplest case, layers in a NN are arranged in a sequence; however, more complex interconnections are possible as well, and in fact very useful in many cases. This section discusses such configurations and introduces a graphical notation to visualize them.
 
 % ------------------------------------------------------------------
-\subsubsection{Sequences}\label{s:cnn-simple}
+\paragraph{Sequences}\label{s:cnn-simple}
 % ------------------------------------------------------------------
 
 Start by considering a computational block $f$ in the network. This can be represented schematically as a box receiving data $\bx$ and parameters $\bw$ as inputs and producing data $\by$ as output:
@@ -609,7 +630,7 @@ As seen above, in the simplest case blocks are chained in a sequence $f_1 \right
 Given an input $\bx_0$, evaluating the network is a simple matter of evaluating all the blocks from left to right, which defines a composite function $\bx_L = f(\bx_0;\bw_1,\dots,\bw_L)$. 
 
 % ------------------------------------------------------------------
-\subsubsection{Directed acyclic graphs}\label{s:cnn-dag}
+\paragraph{Directed acyclic graphs}\label{s:cnn-dag}
 % ------------------------------------------------------------------
 
 \begin{figure}[t]
@@ -681,12 +702,12 @@ In order to visualize DAGs, it is useful to introduce additional nodes for the n
 \end{enumerate}
 
 % ------------------------------------------------------------------
-\subsection{Computing derivatives with backpropagation}\label{s:back}
+\subsubsection{Computing derivatives with backpropagation}\label{s:back}
 % ------------------------------------------------------------------
 
 Learning a NN requires computing the derivative of the loss with respect to the network parameters. Derivatives are computed using an algorithm called \emph{backpropagation}, which is a memory-efficient implementation of the chain rule for derivatives. First, we discuss the derivatives of a single layer, and then of a whole network.
 
-\subsubsection{Derivatives of tensor functions}
+\paragraph{Derivatives of tensor functions}
 
 In a CNN, a layer is a function $\by = f(\bx)$ where both input $\bx \in \mathbb{R}^{H\times W \times C}$ and output $\by \in \mathbb{R}^{H'\times W' \times C'}$ are tensors. The derivative of the function $f$ contains the derivative of each output component $y_{i'j'k'}$ with respect to each input component $x_{ijk}$, for a total of $H'\times W'\times C'\times H\times W\times C$ elements naturally arranged in a 6D tensor. Instead of expressing derivatives as tensors, it is often useful  to switch to a matrix notation by \emph{stacking} the input and output tensors into vectors. This is done by the $\vv$ operator, which visits each element of a tensor in lexicographical order and produces a vector:
 \[
@@ -752,7 +773,7 @@ This notation for the derivatives of tensor functions is taken from~\cite{kingho
 
 While it is easy to express the derivatives of tensor functions as matrices, these matrices are in general extremely large. Even for moderate data sizes (e.g. $H=H'=W=W'=32$ and $C=C'=128$), there are $H'W'C'HWC \approx 17 \times 10^9$ elements in the Jacobian. Storing that requires 68 GB of space in single precision. The purpose of the backpropagation algorithm is to compute the derivatives required for learning without incurring this huge memory cost.
 
-\subsubsection{Derivatives of function compositions}
+\paragraph{Derivatives of function compositions}
 
 In order to understand backpropagation, consider first a simple CNN terminating in a loss function $f_L = \ell_\by$:
 \begin{center}
@@ -849,7 +870,7 @@ In order to implement backpropagation, a CNN toolbox provides implementations of
 \end{itemize}
 This is best illustrated with an example. Consider a layer $f$ such as the convolution operator. In the ``forward'' mode, one calls the function as $y = vl_nnconv(x,w,[])$ to apply the filters $w$ to the input $x$ and obtain the output $y$. In the ``backward mode'', one calls $[dx, dw] = vl_nnconv(x,w,[],p)$.  As explained above, $dx$, $dw$, and $p$ have the same size as $x$, $w$, and $y$, respectively. The computation of large Jacobian is encapsulated in the function call and never carried out explicitly. 
 
-\subsubsection{Backpropagation networks}\label{s:bpnets}
+\paragraph{Backpropagation networks}\label{s:bpnets}
 
 In this section, we provide a schematic interpretation of backpropagation and show how it can be implemented by ``reversing'' the NN computational graph.
 
@@ -966,7 +987,7 @@ Using this notation, the forward and backward passes through the original networ
 \end{center}
 
 % ------------------------------------------------------------------
-\subsubsection{Backpropagation in DAGs}\label{s:dag}
+\paragraph{Backpropagation in DAGs}\label{s:dag}
 % ------------------------------------------------------------------
 
 Assume that the DAG has a single output variable $\bx_L$ and assume, without loss of generality, that all variables are sorted in order of computation $(\bx_0,\bx_1,\dots,\bx_{L-1},\bx_L)$ according to the DAG structure. Furthermore, in order to simplify the notation, assume that this list contains both data and parameter variables, as the distinction is moot for the discussion in this section.
@@ -1177,7 +1198,7 @@ Backpropagation can be summarized as follows:
 \end{figure}
 
 % ------------------------------------------------------------------
-\subsubsection{DAG backpropagation networks}\label{s:bpnets-dag}
+\paragraph{DAG backpropagation networks}\label{s:bpnets-dag}
 % ------------------------------------------------------------------
 
 Just like for sequences, backpropagation in DAGs can be implemented as a corresponding BP-reversed DAG. To construct the reversed DAG:
@@ -1341,11 +1362,11 @@ We now illustrate the action of convolution transpose in an example (see also \c
 \subsection{Spatial pooling}\label{s:pooling}
 % ------------------------------------------------------------------
 
-$vl_nnpool$ implements max and sum pooling. The \emph{max pooling} operator computes the maximum response of each feature channel in a $H' \times W'$ patch
+Pooling can be max or avg pooling. The \emph{max pooling} operator computes the maximum response of each feature channel in a $H' \times W'$ patch
 \[
 y_{i''j''d} = \max_{1\leq i' \leq H', 1 \leq j' \leq W'} x_{i''+i'-1,j''+j'-1,d}.
 \]
-resulting in an output of size $\by\in\real^{H''\times W'' \times D}$, similar to the convolution operator of \cref{s:convolution}. Sum-pooling computes the average of the values instead:
+resulting in an output of size $\by\in\real^{H''\times W'' \times D}$, similar to the convolution operator of \cref{s:convolution}. Average-pooling computes the average of the values instead:
 \[
 y_{i''j''d} = \frac{1}{W'H'}
 \sum_{1\leq i' \leq H', 1 \leq j' \leq W'} x_{i''+i'-1,j''+j'-1,d}.
@@ -1353,6 +1374,46 @@ y_{i''j''d} = \frac{1}{W'H'}
 Detailed calculation of the derivatives is provided in \cref{s:impl-pooling}.
 
 \paragraph{Padding and stride.} Similar to the convolution operator of \cref{s:convolution}, $vl_nnpool$ supports padding the input; however, the effect is different from padding in the convolutional block as pooling regions straddling the image boundaries are cropped. For max pooling, this is equivalent to extending the input data with $-\infty$; for sum pooling, this is similar to padding with zeros, but the normalization factor at the boundaries is smaller to account for the smaller integration area.
+\pagebreak
+% ------------------------------------------------------------------
+\subsection{RoI Pooling}\label{s:roipooling}
+% ------------------------------------------------------------------
+
+RoI Pooling is similar to max-pooling, \cref{s:pooling} at page \pageref{s:pooling}. Let's say our convolutional feature map has size $8\times8$, and our first fully connected layer needs an input of size $2\times2$. RoI Pooling would then follow the figures below.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.1\textwidth]{images/roipool1.jpg} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.1\textwidth]{images/roipool2.jpg} %second
+		%figure itself
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.1\textwidth]{images/roipool3.jpg} % first
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.5\textwidth]{images/roipool4.jpg} %second
+		%figure itself
+		\caption{$2\times2$ output.}
+	\end{minipage}
+\end{figure}
+
+Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. When the region dimensions are not divisible by $N$, the sections of the grid will not all contain the same number of pixels. From each section, we take the greatest pixel value, and arrange these values in an $N\times N$ grid, forming our output. This output is then passed through the fully connected layers.
+
+
+RoI Pooling is used in Fast and Faster R-CNN, \cref{s:nnevo-fastrcnn}
 
 % ------------------------------------------------------------------
 \subsection{Activation functions}\label{s:activation}
@@ -1414,7 +1475,7 @@ The \emph{region of interest (ROI) pooling} block applies max or average pooling
 v_{i'} &= v_- + (v_+ - v_- + 1) (i' - 1), \quad i' = 1,\dots,H',\\
 u_{j'} &= u_- + (u_+ - u_- + 1) (j' - 1), \quad j' = 1,\dots,W'.
 \end{align*}
-Following the implementation of~\cite{girshick15fast}, the $H'\times W'$ pooling tiles are given by
+Following the implementation of Girshick for Fast R-CNN \cite{Girshick_2015}, the $H'\times W'$ pooling tiles are given by
 \[
 \Omega_{i'j'} =
 \{\lfloor v_{i'} \rfloor + 1, \dots, \lceil v_{i'+1} \rceil\}
@@ -1443,7 +1504,7 @@ The extent of each region is defined by four coordinates as specified above; how
 
 In more details, the input of the block is a sequence of $K$ regions. Each region pools one of the $T$ images in the batch stored in $\bx \in \mathbb{R}^{H\times W\times C\times T}$. Regions are therefore specified as a tensor $R \in \mathbb{R}^{5 \times K}$, where the first coordinate is the index of the pooled image in the batch. The output is a $\by \in \mathbb{R}^{H' \times W' \times C \times K}$ tensor.
 
-For compatibility with~\cite{girshick15fast}, furthermore, the region coordinates are rounded to the nearest integer before the definitions above are used. Note also that, due to the discretization details, 1) tiles always contain at least one pixel, 2) there can be a pixel of overlap between them and 3) the discretization has a slight bias towards left-top pixels.
+For compatibility with~\cite{Girshick_2015}, furthermore, the region coordinates are rounded to the nearest integer before the definitions above are used. Note also that, due to the discretization details, 1) tiles always contain at least one pixel, 2) there can be a pixel of overlap between them and 3) the discretization has a slight bias towards left-top pixels.
 
 % ------------------------------------------------------------------
 \subsection{Normalization}\label{s:normalization}
@@ -1689,7 +1750,7 @@ See \cref{s:impl-pdistance} for implementation details.
 %\]
 
 % ------------------------------------------------------------------
-\section{Pattern Recognition Methods Differences}\label{s:patt}
+\section{Pattern Recognition Methods}\label{s:patt}
 % ------------------------------------------------------------------
 
 \subsection{Image Classification}\label{s:patt-class}
@@ -1770,60 +1831,126 @@ Instance segmentation is one step ahead of semantic segmentation wherein along w
 
 \subsection{Introduction}\label{s:nnevo-intro}
 
-Images and videos are collected everyday by different sources. Recognizing objects, segmenting localizing and classifying them has been a major area of interest in computer vision. Significant progress has been made commencing from use of low-level image features, such as \emph {Scale Invariant Feature Transform}  SIFT [A] and \emph{ Histogram of Oriented Gradients HOG }[B] , in sophisticated machine learning frameworks to the use of multi-layer convolutional networks to compute highly discriminative, and invariant features [C]. SIFT and HOG are feature descriptor and semi-local orientation histograms that counts occurrences of gradient orientation in localized portions of an image. 
+Images and videos are collected everyday by different sources. Recognizing objects, segmenting localizing and classifying them has been a major area of interest in computer vision. Significant progress has been made commencing from use of low-level image features, such as \emph {Scale Invariant Feature Transform}  SIFT \cite{lowe1999object} and \emph{ Histogram of Oriented Gradients HOG }\cite{dalal2005histograms} , in sophisticated machine learning frameworks to the use of multi-layer convolutional networks to compute highly discriminative, and invariant features \cite{Girshick_2014}. SIFT and HOG are feature descriptor and semi-local orientation histograms that counts occurrences of gradient orientation in localized portions of an image. 
 
 \subsection{Convolutional Neural Network}\label{s:nnevo-cnn}
 
-Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} [D], a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)[C] can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM), in 2012 it was revitalize by Krizhevsky et al. [D] by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) [E] and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. To perform object detection with CNN and in attempt to bridge the gap between image segmentation and object detection two issues were fixed by R.Girshick et al [C]. First was the localization of objects with a Deep Network and training a high-capacity model with only a small quantity of annotated detection data. Use of a sliding-window detector was proposed for the localization of object but was not preferred because it can only work for one object detection and all objects in an image have to have a common aspect ratio for its use in multiple object detection. Instead the localization problem was solved by operating within the “recognition using regions” paradigm.
+Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} \cite{fukushima1980neocognitron}, a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)\cite{Girshick_2014} can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM, Fig~\ref{fig:svm}), in 2012 it was revitalize by Krizhevsky et al. \cite{krizhevsky2012imagenet} by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. 
 
-\subsection{Regional CNN}\label{s:nnevo-rcnn}
+\subsection{Region-based CNN}\label{s:nnevo-rcnn}
 
-Work in progress\dots\dots
+To perform object detection with CNN and in attempt to bridge the gap between image segmentation and object detection two issues were fixed by R.Girshick et al \cite{Girshick_2014}. First was the localization of objects with a Deep Network and training a high-capacity model with only a small quantity of annotated detection data. Use of a sliding-window detector was proposed for the localization of object but was not preferred because it can only work for one object detection and all objects in an image have to have a common aspect ratio for its use in multiple object detection. Instead the localization problem was solved by operating within the “recognition using regions” paradigm.
+
+The Region-based Convolutional Neural Network (R-CNN) is relatively simple. First, we propose some regions of an image which contain objects. We feed these regions into a CNN, and then we use an SVM to classify the outputs for each class.
+
+\begin{center}
+	\includegraphics[scale=0.3]{images/rcnn.png}
+\end{center}
+
+If we wish to have a CNN classify objects in images, we need to feed in a region of the image to the CNN. Of course, the question becomes: How do we know which regions to feed into a network? We cannot possibly try every single possible region of an image; there are too many combinations. We must have a way to propose regions which are likely to contain objects.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.66\textwidth]{images/search.PNG} % first
+		\caption{Too many regions!}
+		\label{f:regionscnn}
+		%figure itself
+	\end{minipage}\hfill
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.66\textwidth]{images/region.PNG} % second figure itself
+	\end{minipage}
+\end{figure}
+
+R-CNN is agnostic to the region proposal algorithm. The original R-CNN uses the Selective Search algorithm. Since selective search, various region proposal methods have been developed.
+
+Selective Search detects image segments to propose regions. It uses the segments it finds to identify the containing boxes, which will be used by R-CNN as regions.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/segment.PNG}
+	\caption{Using segments to define regions}
+	\label{f:segment}
+\end{figure}
 
 \subsection{Fast R-CNN}\label{s:nnevo-fastrcnn}
 
-Fast R-CNN was introduced in 2015 by Girshick [F]. A single-stage training algorithm that jointly learns to classify object proposals and refine their spatial locations was demonstrated. This tackled the problem of complexity that arises in other deep ConvNets [D,G, H], caused by the multi-stage pipelines that are slow. The slow nature is due to the fact that detection requires accurate localization of objects that creates the challenge of that many proposals (candidate object locations) must be processed and these proposals provides only rough localization that must be refined to achieve precise localization. Fast R-CNN is 9 X faster than R-CNN [C] and 3 X faster than SPPnet [I]. R-CNN was speed up by \emph{Spatial pyramid pooling networks (SPPnets)}[I] by sharing computation. A convolutional feature map for the entire input image was computed by SPPnet method. After which it then classifies each object proposal using a feature vector extracted from the shared feature map. SPPnet also has obvious pitfalls. It is a multi-stage pipeline similar to R-CNN that involves extracting features, refining a network with log loss, training SVMs, and lastly fitting bounding-box regressors. Features are also written to disk. But unlike R-CNN, the refining algorithm demonstrated in SPPnet cannot update the convolutional layers that precede the spatial pyramid pooling. This constraint limits the accuracy of very deep networks.
+Fast R-CNN was introduced in 2015 by Girshick \cite{Girshick_2015}. A single-stage training algorithm that jointly learns to classify object proposals and refine their spatial locations was demonstrated.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{images/fastrcnn.PNG}
+	\caption{Fast R-CNN Architecture}
+	\label{f:fastrcnn}
+\end{figure}
+
+Fast R-CNN, instead of running the CNN for each region, runs it just a single time. And then takes the regions from the convolutional feature map (the output of a filter applied to the previous layer).
+
+This tackled the problem of complexity that arises in other deep ConvNets, caused by the multi-stage pipelines that are slow. The slow nature is due to the fact that detection requires accurate localization of objects that creates the challenge of that many proposals (candidate object locations) must be processed and these proposals provides only rough localization that must be refined to achieve precise localization. Fast R-CNN is 9 X faster than R-CNN \cite{Girshick_2014} and 3 X faster than SPPnet \cite{he2015spatial}. R-CNN was sped up by \emph{Spatial pyramid pooling networks (SPPnets)}\cite{he2015spatial} by sharing computation. A convolutional feature map for the entire input image was computed by SPPnet method. After which it then classifies each object proposal using a feature vector extracted from the shared feature map. 
+
+Fig.~\ref{f:fast-rcnn-arch} below makes it clear that Fast R-CNN proposes regions of interest ``RoI" from the input image. These are generated using a region proposal algorithm (e.g. Selective Search), just like they were in R-CNN.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{images/fast-rcnn-arch.png}
+	\caption{Fast R-CNN RoI Projection}
+	\label{f:fast-rcnn-arch}
+\end{figure}
+
+However, in Fast R-CNN, as Fig.~\ref{f:fastrcnn} shows, these regions of interest are then projected onto the convolutional feature map. This allows us to re-use the expensive convolutional computation. We take crops from this feature map and run them through the rest of the network. The question then becomes: how exactly do we \textit{project} a region of the input image onto a region of the convolutional feature map?
+
+The SPPNet paper (``Spatial Pyramid Pooling in Deep Convolutional
+Networks for Visual Recognition" by He et al.)~\cite{he2015spatial}, which came out between R-CNN and Fast R-CNN, first introduced the idea of RoI projection.
+
+RoI Projections are of course different from cropping an image, so here comes RoI Pooling, which is described in \cref{s:roipooling}.
+
+SPPnet also has obvious pitfalls. It is a multi-stage pipeline similar to R-CNN that involves extracting features, refining a network with log loss, training SVMs, and lastly fitting bounding-box regressors. Features are also written to disk. But unlike R-CNN, the refining algorithm demonstrated in SPPnet cannot update the convolutional layers that precede the spatial pyramid pooling. This constraint limits the accuracy of very deep networks.
 
 \subsection{Faster R-CNN}\label{s:nnevo-fasterrcnn}
 
-Additional efforts were made to reduce the running time of deep ConvNets for object detection and segmentation. Regional proposal computation is the root of this expensive running time in detection networks. A fully convolutional network that simultaneously predicts object bounds and objectness scores at each position called \emph{ Region Proposal Network (RPN) }was developed by Ren et al [J]. RPN shares full-image convolutional features with the detection network, thus permitting virtually cost-free region proposals and it is trained end-to-end to generate high-quality region proposals. Integrating RPN and Fast R-CNN into a unit network by sharing their convolutional features results to Faster R-CNN. Anchor boxes that acts as reference at multiple scales and aspect ratios were introduced in Faster R-CNN instead of the pyramids of filters used in earlier methods. RPNs are developed to coherently speculate region proposals with an extensive range of scales and aspect ratios.
+Additional efforts were made to reduce the running time of deep ConvNets for object detection and segmentation. Regional proposal computation is the root of this expensive running time in detection networks. A fully convolutional network that simultaneously predicts object bounds and objectness scores at each position called \emph{ Region Proposal Network (RPN) }was developed by Ren et al \cite{ren2015faster}. RPN shares full-image convolutional features with the detection network, thus permitting virtually cost-free region proposals and it is trained end-to-end to generate high-quality region proposals. Integrating RPN and Fast R-CNN into a unit network by sharing their convolutional features results to Faster R-CNN. Anchor boxes that acts as reference at multiple scales and aspect ratios were introduced in Faster R-CNN instead of the pyramids of filters used in earlier methods. RPNs are developed to coherently speculate region proposals with an extensive range of scales and aspect ratios.
 
-Changing the architecture of the pyramids of filter to a top-down architecture with lateral connections improved the efficiency of this pyramids [K]. This is applied in building high-level semantic feature maps at all scales. This new architecture is called \emph{ Feature Pyramid Network (FPN)} [K]. In various applications and uses it displayed a notable improvement as a generic feature extractor. When used in a Faster R-CNN it achieved results that supersedes that of Faster R-CNN alone. 
+Changing the architecture of the pyramids of filter to a top-down architecture with lateral connections improved the efficiency of this pyramids \cite{lin2017feature}. This is applied in building high-level semantic feature maps at all scales. This new architecture is called \emph{ Feature Pyramid Network (FPN)} \cite{lin2017feature}. In various applications and uses it displayed a notable improvement as a generic feature extractor. When used in a Faster R-CNN it achieved results that supersedes that of Faster R-CNN alone. 
 
 \subsection{Mask R-CNN}\label{s:nnevo-maskrcnn}
 
-In order to generate a high-quality segmentation mask for object instances in an image, Mask R-CNN was developed [L]. Mask R-CNN add another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN.
+In order to generate a high-quality segmentation mask for object instances in an image, \maskrcnn was developed \cite{He_2017}. \maskrcnn add another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN. 
+
+This allows for our task: Instance Segmentation
 
 
-\section{Mask R-CNN}\label{s:maskrcnn}
+\section{Instance Segmentation}\label{s:maskrcnn}
 
-Instance Segmentation is one of the most difficult image-based computer vision tasks. It combines elements of semantic segmentation (pixel-level classification) and object detection (instance recognition). Essentially, at every pixel, we wish to classify not only the type of object (or background) the pixel is part of, but also determine which instance the pixel is part of.
+Instance Segmentation is one of the most difficult image-based computer vision tasks. It combines elements of semantic segmentation (pixel-level classification) and object detection (instance recognition). Essentially, at every pixel, we wish to classify not only the type of object (or background) the pixel is part of, but also determine which instance the pixel is part of, as described in \cref{s:patt}
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.3]{images/tasks.PNG}
-\end{center}
+	\caption{Pattern recognition tasks.}
+	\label{f:tasks}
+\end{figure}
 
-Not unsurprisingly, instance segmentation networks rely heavily on existing object detection networks. This lecture will cover one particular instance segmentation network, called Mask R-CNN. Mask R-CNN modifies the Faster R-CNN architecture and adapts it for instance segmentation with minimal overhead. Mask R-CNN is the current leader in instance segmentation performance.
+Not unsurprisingly, instance segmentation networks rely heavily on existing object detection networks. \maskrcnn modifies the Faster R-CNN architecture and adapts it for instance segmentation with minimal overhead. \maskrcnn is the current leader in instance segmentation performance.
 
-This lecture is designed for students with understanding of object detection networks. If you are unfamiliar with R-CNN, Fast R-CNN, or Faster R-CNN, read our lecture ``Object Detection" before proceeding.
-
-Mask R-CNN is a modification of the Faster R-CNN architecture. The authors noticed that a previous ``fully convolutional instance segmentation" (FCIS) solutions, which performed segmentation, classification, and bounding-box regression simultaneously, although they ran fast, exhibited low segmentation accuracy, especially on overlapping objects. Mask R-CNN therefore takes a different approach, \textit{decoupling} segmentation from classification and bounding-box regression. Mask R-CNN thus adds a separate mask ``head" to the Faster R-CNN network. This is shown in the diagram below.
+A previous ``fully convolutional instance segmentation" (FCIS) solution, which performed segmentation, classification, and bounding-box regression simultaneously, although very fast, exhibited low segmentation accuracy, especially on overlapping objects. \maskrcnn therefore takes a different approach, \textit{decoupling} segmentation from classification and bounding-box regression. \maskrcnn thus adds a separate mask ``head" to the Faster R-CNN network. This is shown in the diagram below.
 
 The mask ``head" is simply a small fully convolutional network that outputs an $m\times m$ mask for each region proposal. We use a fully convolutional network rather than fully connected layers so we do not lose spatial information. A fully convolutional solution requires fewer parameters than previous fully connected solutions while simultaneously increasing accuracy.
 
-The two diagrams at the bottom of Page 2 show a different visualization of Faster R-CNN and Mask R-CNN. Besides the additional ``mask" head of Mask R-CNN, you may have noticed RoIAlign replacing RoI Pooling. We will cover this in the next section.
+The two diagrams at the bottom of Fig~\ref{f:fastermaskrcnn} show a different visualization of Faster R-CNN and \maskrcnn. Besides the additional ``mask" head of \maskrcnn, you may have noticed RoIAlign replacing RoI Pooling. We will cover this in the next section.
 
-\begin{center}
+\begin{figure}[H]
+	\centering
 	\includegraphics[scale=0.36]{images/masknetwork.png}
-\end{center}
 
-\begin{center}
 	\includegraphics[scale=0.45]{images/fasterrcnn.PNG}
-\end{center}
 
-\begin{center}
 	\includegraphics[scale=0.45]{images/maskrcnn.PNG}
-\end{center}
+
+	\caption{Faster R-CNN vs \maskrcnn}
+	\label{f:fastermaskrcnn}
+\end{figure}
 
 \subsection{RoIAlign}
 If you are unfamiliar or have forgotten RoI Pooling, please refer back to Section 3.2 in our lecture ``Object Detection". RoAlign is simply a more precise version of RoI Pooling. 
@@ -1861,7 +1988,7 @@ If you are unfamiliar or have forgotten RoI Pooling, please refer back to Sectio
 	\includegraphics[scale=0.35]{images/roialign5.PNG}
 \end{center}
 
-Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. Unlike RoI Pooling, these regions will contain the exact same number of pixels, so we will often have fractional pixels. From each grid cell, we sample four regions as shown by the red $\times$ marks in the third image. We then subdivide each grid cell into four subcells, each centered on an $\times$. We perform bilinear interpolation to get a single value for each subregion, or four values for each cell. These values are shown in the fourth image. Finally, we perform a simple max pooling on the bilinear interpolated values, taking the maximum value per cell to reach an $N\times N$ output. This output is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up our masking head.
+Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. Unlike RoI Pooling, these regions will contain the exact same number of pixels, so we will often have fractional pixels. From each grid cell, we sample four regions as shown by the red $\times$ marks in the third image. We then subdivide each grid cell into four subcells, each centered on an $\times$. We perform bilinear interpolation to get a single value for each subregion, or four values for each cell. These values are shown in the fourth image. Finally, we perform a simple max pooling (\cref{s:pooling}) on the bilinear interpolated values, taking the maximum value per cell to reach an $N\times N$ output. This output is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up our masking head.
 
 Of course, you should have one question remaining: What exactly is bilinear interpolation?
 
@@ -1886,10 +2013,10 @@ Bilinear interpolation is fairly trivial. It is best understood visually. Simply
 Note how in the figure on the left, the red pixel value corresponds to the smaller area opposite the pixel. This is because closer pixels (like the yellow one) have greater weighting.
 The figure on the right makes it clear how bilinear interpolation is implementaed in RoIAlign. At each blue dot (represented with a red $\times$ in the figures on the previous page), we take the closest 4 pixel values and multiply them by the respective areas.
 
-And that's all RoIAlign is. It achieves the same goal as RoI Pooling, which is to take a region of any shape and create a fixed output. However, because we are using fractional pixels, we can get much better alignment. This simple change resulted in considerable accuracy improvements for Mask R-CNN.
+And that's all RoIAlign is. It achieves the same goal as RoI Pooling, which is to take a region of any shape and create a fixed output. However, because we are using fractional pixels, we can get much better alignment. This simple change resulted in considerable accuracy improvements for \maskrcnn.
 
 \subsection{Mask Head}
-Depending on the network backbone, the mask head differs for Mask R-CNN. Below is a look at the two different heads. Both are trivial FCNs.
+Depending on the network backbone, the mask head differs for \maskrcnn. Below is a look at the two different heads. Both are trivial FCNs.
 
 \begin{center}
 	\includegraphics[scale=0.3]{images/backbones.PNG}
@@ -1899,17 +2026,17 @@ In the diagram above, FPN stands for ``Feature Pyramid Network". You should alre
 
 There are a few important things to know about this mask head. First, like we said earlier, our output is an $m\times m$ mask. However, the authors found it beneficial to have binary masks. In other words, we predict $K$ $m\times m$ masks for each RoI, where $K$ is the number of classes. One mask per class. Thus, the mask branch has a $Km^2$-dimensional output for each region of interest.
 
-Our loss function is now different. Previously, we had $L = L_{boundingbox} + L_{classification}$. We've covered the details of classification and bounding-box loss in our object detection, for both the region proposal network (RPN) and the network itself. For Mask R-CNN, we add another loss, $L_{mask}$. For some region $r$, if the ground truth class is $k$, we apply a per-pixel sigmoid on \textit{only} the $k$th mask. This allows us to define $L_{mask}$ as the average binary cross-entropy loss. Thus, the masks for classes that don't correspond to the ground truth aren't calculated. (remember, we have one mask per class for every region).
+Our loss function is now different. Previously, we had $L = L_{boundingbox} + L_{classification}$. We've covered the details of classification and bounding-box loss in our object detection, for both the region proposal network (RPN) and the network itself. For \maskrcnn, we add another loss, $L_{mask}$. For some region $r$, if the ground truth class is $k$, we apply a per-pixel sigmoid on \textit{only} the $k$th mask. This allows us to define $L_{mask}$ as the average binary cross-entropy loss. Thus, the masks for classes that don't correspond to the ground truth aren't calculated. (remember, we have one mask per class for every region).
 
-By computing one mask per class, we are \textit{decoupling} classification and segmentation. We simply don't care what class the object is when we segment it. Previous practices, like FCNs for semantic segmentation, use multi-class cross-entropy losses and per-pixel softmax. These allows for competition between classes, which Mask R-CNN eliminates.
+By computing one mask per class, we are \textit{decoupling} classification and segmentation. We simply don't care what class the object is when we segment it. Previous practices, like FCNs for semantic segmentation, use multi-class cross-entropy losses and per-pixel softmax. These allows for competition between classes, which \maskrcnn eliminates.
 
 \subsection{Training and Testing}
-When training, Mask R-CNN shares similarities with its object detection cousins. Hyperparameters were set to the same values. Positive RoIs have IoU of at least 0.5 with the ground truth box. In addition, $L_{mask}$ is defined only on positive RoIs. The mask target is the intersection between an RoI and its associated ground-truth mask. 
+When training, \maskrcnn shares similarities with its object detection cousins. Hyperparameters were set to the same values. Positive RoIs have IoU of at least 0.5 with the ground truth box. In addition, $L_{mask}$ is defined only on positive RoIs. The mask target is the intersection between an RoI and its associated ground-truth mask. 
 
-At test time, after non-maximum supression is applied, the masking branch is applied on only the top 100 RoIs. If an region was classified into class $k$, we simply choose the $k$th mask. The mask is then resized to the size of the region of interest. By reducing segmentation computation to only 100 regions, we dramatically decrease the amount of overhead. In fact, Mask R-CNN runs at 5 fps, compared to Faster R-CNN's 7 fps.
+At test time, after non-maximum supression is applied, the masking branch is applied on only the top 100 RoIs. If an region was classified into class $k$, we simply choose the $k$th mask. The mask is then resized to the size of the region of interest. By reducing segmentation computation to only 100 regions, we dramatically decrease the amount of overhead. In fact, \maskrcnn runs at 5 fps, compared to Faster R-CNN's 7 fps.
 
 \subsection{Model Performance}
-The Mask R-CNN paper not only provides evidence that their model outperforms all previous models, but also conducted various ablation experiments to show that RoIAlign, segmentation decoupling, and fully convolutional mask heads each individually improve accuracy. The results are shown in the tables below.
+The \maskrcnn paper not only provides evidence that their model outperforms all previous models, but also conducted various ablation experiments to show that RoIAlign, segmentation decoupling, and fully convolutional mask heads each individually improve accuracy. The results are shown in the tables below.
 
 
 \begin{figure}[htbp]
@@ -1930,13 +2057,13 @@ The Mask R-CNN paper not only provides evidence that their model outperforms all
 	\includegraphics[scale=0.4]{images/fcncomparison.PNG}
 \end{center}
 
-In addition, Mask R-CNN performs better with a deeper backbone CNN. However, it should be noted that the 5 fps speed was achieved using the shallow ResNet-50 network as a backbone.
+In addition, \maskrcnn performs better with a deeper backbone CNN. However, it should be noted that the 5 fps speed was achieved using the shallow ResNet-50 network as a backbone.
 
 \begin{center}
 	\includegraphics[scale=0.4]{images/backbonecomparison.PNG}
 \end{center}
 
-The results on the COCO and Cityscapes benchmarks are shown below. Mask R-CNN performs with state-of-the-art accuracy on both.
+The results on the COCO and Cityscapes benchmarks are shown below. \maskrcnn performs with state-of-the-art accuracy on both.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.85\textwidth]{images/cocoresults.PNG} % first
@@ -1965,10 +2092,10 @@ Some segmentation examples from the two benchmarks are provided below. Segmentat
 	\end{minipage}
 \end{figure}
 
-Mask R-CNN can also be used for human pose estimation. We refer readers to the Mask R-CNN paper.
+\maskrcnn can also be used for human pose estimation. We refer readers to the \maskrcnn paper.
 
 \subsection{Conclusion}
-Mask R-CNN leaps ahead of the competition in terms of pure instance segmentation performance. However, no current instance segmentation method can achieve great results while operating in real-time (60 FPS). In the future, look for networks which dramatically improve segmentation speed as well as accuracy.
+\maskrcnn leaps ahead of the competition in terms of pure instance segmentation performance. However, no current instance segmentation method can achieve great results while operating in real-time (60 FPS). In the future, look for networks which dramatically improve segmentation speed as well as accuracy.
 
 
 
