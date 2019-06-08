@@ -3,7 +3,7 @@
 
 
 Capitolo uno: 
-esempio di bibliografia \cite{2015arXiv150200046K}, un esempio di figura \ref{figure:test inserimento} e un esempio di tabella \ref{table:esempio_tabella}.
+esempio di bibliografia \cite{2015arXiv150200046K}, un esempio di figura \fref{figure:test inserimento} e un esempio di tabella \tref{table:esempio_tabella}.
 
 \begin{figure}[H]
 	\centering
@@ -118,7 +118,7 @@ Let's briefly explain some concepts before diving into Neural Networks:
 		They can be also used to measure the importance a particular feature. In fact, while usually the most important features in a tree are the top level ones, in random forests you have more than one tree, so a good way to find the importance of a feature is averaging the depth of the level where the feature is present in all the trees of the forest. In the image above, the features are the single pixels.
 	\item Support Vector Machines:
 	
-		SVMs are widely used (\cref{s:nnevo-cnn}) to do supervised learning on both linear and non-linear classification.
+		SVMs are widely used (\sref{s:nnevo-cnn}) to do supervised learning on both linear and non-linear classification.
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[scale=0.4]{images/svm.jpg}
@@ -146,7 +146,7 @@ Let's briefly explain some concepts before diving into Neural Networks:
 	\end{center}
 \end{figure}
 
-Learning tasks for neural networks can be classified according to the source of information for them. Fig.~\ref{LearningActivityDiagram}
+Learning tasks for neural networks can be classified according to the source of information for them. \fref{LearningActivityDiagram}
 
 There are basically two sources of information: data sets and mathematical models. 
 Some classes of learning tasks which learn from data sets are \emph{function regression}, \emph{pattern recognition} or \emph{time series prediction}. 
@@ -268,12 +268,12 @@ The neural network learns from data sets in function regression and pattern reco
 it learns from mathematical models in optimal control and optimal shape design; 
 and it learns from both mathematical models and data sets in inverse problems. 
 
-Figure \ref{LearningTasksFigure} shows the learning tasks for neural networks described in this section. 
+\fref{LearningTasksFigure} shows the learning tasks for neural networks described in this section. 
 As we can see, they are capable of dealing with a great range of applications. 
 Modelling and classification are the most traditional; 
 optimal control, optimal shape design and inverse problems can also be very useful.
 
-Our learning task, that \maskrcnn solves really well, is Pattern Recognition (\cref{s:ltask-patt}).
+Our learning task, that \maskrcnn solves really well, is Pattern Recognition (\sref{s:ltask-patt}).
 
 \begin{figure}[h!]
 	\begin{center}
@@ -532,7 +532,7 @@ It is also possible to conceive CNNs with more than two spatial dimensions, wher
 
 variety of layers such as (convolution),  (convolution transpose or deconvolution),  (max and average pooling),  (ReLU activation),  (sigmoid activation),  (softmax operator),  (classification log-loss), (batch normalization), (spatial normalization), (local response normalization -- LRN), or ($p$-distance).  There are enough layers to implement many interesting state-of-the-art networks out of the box, or even import them from other toolboxes such as Caffe. 
 
-NNs are often used as classifiers or regressors. In the example of \cref{f:demo}, the output $\hat \by = f(\bx)$ is a vector of probabilities, one for each of a 1,000 possible image labels (dog, cat, trilobite, ...).  If $\by$ is the true label of image $\bx$, we can measure the CNN performance by a loss function $\ell_\by(\hat \by)  \in \mathbb{R}$ which assigns a penalty to classification errors. The CNN parameters can then be tuned or \emph{learned} to minimize this loss averaged over a large dataset of labelled example images.
+NNs are often used as classifiers or regressors. In the example of \sref{f:demo}, the output $\hat \by = f(\bx)$ is a vector of probabilities, one for each of a 1,000 possible image labels (dog, cat, trilobite, ...).  If $\by$ is the true label of image $\bx$, we can measure the CNN performance by a loss function $\ell_\by(\hat \by)  \in \mathbb{R}$ which assigns a penalty to classification errors. The CNN parameters can then be tuned or \emph{learned} to minimize this loss averaged over a large dataset of labelled example images.
 
 Learning generally uses a variant of \emph{stochastic gradient descent} (SGD). While this is an efficient method (for this type of problems), networks may contain several million parameters and need to be trained on millions of images. SGD also requires to compute the CNN derivatives, as explained in the next section.
 
@@ -692,7 +692,7 @@ Given an input $\bx_0$, evaluating the network is a simple matter of evaluating 
 
 One is not limited to chaining layers one after another. In fact, the only requirement for evaluating a NN is that, when a layer has to be evaluated, all its input have been evaluated prior to it. This is possible exactly when the interconnections between layers form a \emph{directed acyclic graph}, or DAG for short.
 
-In order to visualize DAGs, it is useful to introduce additional nodes for the network variables, as in the  example of Fig.~\ref{f:dag}. Here boxes denote functions and circles denote variables (parameters are treated as a special kind of variables). In the example, $\bx_0$ and $\bx_4$ are the inputs of the CNN and $\bx_6$ and $\bx_7$ the outputs. Functions can take any number of inputs (e.g. $f_3$ and $f_5$ take two) and have any number of outputs (e.g. $f_4$ has two). There are a few noteworthy properties of this graph:
+In order to visualize DAGs, it is useful to introduce additional nodes for the network variables, as in the  example of \fref{f:dag}. Here boxes denote functions and circles denote variables (parameters are treated as a special kind of variables). In the example, $\bx_0$ and $\bx_4$ are the inputs of the CNN and $\bx_6$ and $\bx_7$ the outputs. Functions can take any number of inputs (e.g. $f_3$ and $f_5$ take two) and have any number of outputs (e.g. $f_4$ has two). There are a few noteworthy properties of this graph:
 
 \begin{enumerate}
 	\item The graph is bipartite, in the sense that arrows always go from boxes to circles and from circles to boxes. 
@@ -1208,16 +1208,16 @@ Just like for sequences, backpropagation in DAGs can be implemented as a corresp
 	\item If a variable $\bx_t$ (or parameter $\bw_l$) is an input of $f_l$, then the variable $d\bx_t$ (or the parameter $d\bw_l$) is an output $df_l$.
 	\item In the previous step, if a variable $\bx_t$ (or parameter $\bw_l$) is input to two or more layers in $f$, then $d\bx_t$ would be the output of two or more layers in the reversed network, which creates a conflict. Resolve these conflicts by inserting a summation layer that adds these contributions (this corresponds to the summation in the BP update equation \eqref{e:bp-update}).
 \end{enumerate}
-The BP network corresponding to the DAG of Fig.~\ref{f:dag} is given in Fig.~\ref{f:dagbp}.
+The BP network corresponding to the DAG of \fref{f:dag} is given in \fref{f:dagbp}.
 
 
 % ------------------------------------------------------------------
 \section{Computational blocks}\label{s:blocks}
 % ------------------------------------------------------------------
 
-This chapters describes the individual computational blocks supported by \matconvnet. The interface of a CNN computational block $<block>$ is designed after the discussion in \cref{s:fundamentals}. The block is implemented as a MATLAB function $y = vl_nn<block>(x,w)$ that takes as input MATLAB arrays $x$ and $w$ representing the input data and parameters and returns an array $y$ as output. In general, $x$ and $y$ are 4D real arrays packing $N$ maps or images, as discussed above, whereas $w$ may have an arbitrary shape.
+This chapters describes the individual computational blocks supported by \matconvnet. The interface of a CNN computational block $<block>$ is designed after the discussion in \sref{s:fundamentals}. The block is implemented as a MATLAB function $y = vl_nn<block>(x,w)$ that takes as input MATLAB arrays $x$ and $w$ representing the input data and parameters and returns an array $y$ as output. In general, $x$ and $y$ are 4D real arrays packing $N$ maps or images, as discussed above, whereas $w$ may have an arbitrary shape.
 
-The function implementing each block is capable of working in the backward direction as well, in order to compute derivatives. This is done by passing a third optional argument $dzdy$ representing the derivative of the output of the network with respect to $\by$; in this case, the function returns the derivatives $[dzdx,dzdw] = vl_nn<block>(x,w,dzdy)$ with respect to the input data and parameters. The arrays $dzdx$, $dzdy$ and $dzdw$ have the same dimensions of $x$, $y$ and $w$ respectively (see \cref{s:back}).
+The function implementing each block is capable of working in the backward direction as well, in order to compute derivatives. This is done by passing a third optional argument $dzdy$ representing the derivative of the output of the network with respect to $\by$; in this case, the function returns the derivatives $[dzdx,dzdw] = vl_nn<block>(x,w,dzdy)$ with respect to the input data and parameters. The arrays $dzdx$, $dzdy$ and $dzdw$ have the same dimensions of $x$, $y$ and $w$ respectively (see \sref{s:back}).
 
 Different functions may use a slightly different syntax, as needed: many functions can take additional optional arguments, specified as property-value pairs; some do not have parameters  $w$ (e.g. a rectified linear unit); others can take multiple inputs and parameters, in which case there may be more than one $x$, $w$, $dzdx$, $dzdy$ or $dzdw$. See the rest of the chapter and MATLAB inline help for details on the syntax.\footnote{Other parts of the library will wrap these functions into objects with a perfectly uniform interface; however, the low-level functions aim at providing a straightforward and obvious interface even if this means differing slightly from block to block.}
 
@@ -1239,7 +1239,7 @@ The convolutional block is implemented by the function $vl_nnconv$. $y=vl_nnconv
 \bff\in\real^{H' \times W' \times D \times D''}, \quad
 \by\in\real^{H'' \times W'' \times D''}.
 \]
-The process of convolving a signal is illustrated in \cref{f:conv} for a 1D slice. Formally, the output is given by
+The process of convolving a signal is illustrated in \sref{f:conv} for a 1D slice. Formally, the output is given by
 \[
 y_{i''j''d''}
 =
@@ -1250,7 +1250,7 @@ b_{d''}
 \sum_{d'=1}^D
 f_{i'j'd} \times x_{i''+i'-1,j''+j'-1,d',d''}.
 \]
-The call $vl_nnconv(x,f,[])$ does not use the biases. Note that the function works with arbitrarily sized inputs and filters (as opposed to, for example, square images). See \cref{s:impl-convolution} for technical details.
+The call $vl_nnconv(x,f,[])$ does not use the biases. Note that the function works with arbitrarily sized inputs and filters (as opposed to, for example, square images). See \sref{s:impl-convolution} for technical details.
 
 \paragraph{Padding and stride.} $vl_nnconv$ allows to specify  top-bottom-left-right paddings $(P_h^-,P_h^+,P_w^-,P_w^+)$ of the input array and subsampling strides $(S_h,S_w)$ of the output array:
 \[
@@ -1265,19 +1265,19 @@ f_{i'j'd} \times x_{S_h (i''-1)+i'-P_h^-, S_w(j''-1)+j' - P_w^-,d',d''}.
 \]
 In this expression, the array $\bx$ is implicitly extended with zeros as needed.
 
-\paragraph{Output size.} $vl_nnconv$ computes only the ``valid'' part of the convolution; i.e. it requires each application of a filter to be fully contained in the input support.  The size of the output is computed in \cref{s:receptive-simple-filters} and is given by:
+\paragraph{Output size.} $vl_nnconv$ computes only the ``valid'' part of the convolution; i.e. it requires each application of a filter to be fully contained in the input support.  The size of the output is computed in \sref{s:receptive-simple-filters} and is given by:
 \[
 H'' = 1 + \left\lfloor \frac{H - H' + P_h^- + P_h^+}{S_h} \right\rfloor.
 \]
 Note that the padded input must be at least as large as the filters: $H +P_h^- + P_h^+ \geq H'$, otherwise an error is thrown.
 
-\paragraph{Receptive field size and geometric transformations.} Very often it is useful to geometrically relate the indexes of the various array to the input data (usually images) in terms of coordinate transformations and size of the receptive field (i.e. of the image region that affects an output). This is derived in \cref{s:receptive-simple-filters}.
+\paragraph{Receptive field size and geometric transformations.} Very often it is useful to geometrically relate the indexes of the various array to the input data (usually images) in terms of coordinate transformations and size of the receptive field (i.e. of the image region that affects an output). This is derived in \sref{s:receptive-simple-filters}.
 
 \paragraph{Fully connected layers.} In other libraries, \emph{fully connected blocks or layers} are linear functions where each output dimension depends on all the input dimensions. \matconvnet does not distinguish between fully connected layers and convolutional blocks. Instead, the former is a special case of the latter obtained when the output map $\by$ has dimensions $W''=H''=1$. Internally, $vl_nnconv$ handles this case more efficiently when possible.
 
 \paragraph{Filter groups.} For additional flexibility, $vl_nnconv$ allows to group channels of the input array $\bx$ and apply different subsets of filters to each group. To use this feature, specify as input a bank  of $D''$ filters $\bff\in\real^{H'\times W'\times D'\times D''}$ such that $D'$ divides the number of input dimensions $D$. These are treated as $g=D/D'$ filter groups; the first group is applied to dimensions $d=1,\dots,D'$ of the input $\bx$; the second group to dimensions $d=D'+1,\dots,2D'$ and so on. Note that the output is still an array $\by\in\real^{H''\times W''\times D''}$.
 
-An application of grouping is implementing the Krizhevsky and Hinton network~\cite{krizhevsky12imagenet} which uses two such streams. Another application is sum pooling; in the latter case, one can specify $D$ groups of $D'=1$ dimensional filters identical filters of value 1 (however, this is considerably slower than calling the dedicated pooling function as given in \cref{s:pooling}).
+An application of grouping is implementing the Krizhevsky and Hinton network~\cite{krizhevsky12imagenet} which uses two such streams. Another application is sum pooling; in the latter case, one can specify $D$ groups of $D'=1$ dimensional filters identical filters of value 1 (however, this is considerably slower than calling the dedicated pooling function as given in \sref{s:pooling}).
 
 \paragraph{Dilation.} $vl_nnconv$ allows kernels to be spatially dilated on the fly by inserting zeros between elements. For instance, a dilation factor $d=2$ causes the 1D kernel $[f_1,f_2]$ to be implicitly transformed into the kernel $[f_1,0,f_2]$. Under this notation, $d-1$ zeros are inserted between filter elements (and consequently, a dilation factor of $1$ has no effect). Thus, with dilation factors $d_h,d_w$, a filter of size $(H_f,W_f)$ is equivalent to a filter of size:
 \[
@@ -1308,10 +1308,10 @@ f_{i'j'd} \times x_{
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/svg/convt}
-	\caption{\textbf{Convolution transpose.} The figure illustrates the process of filtering a 1D signal $x$ by a filter $f$ to obtain a signal $y$. The filter is applied as a sliding-window, forming a pattern which is the transpose of the one of \cref{f:conv}. The filter has $H'=4$ samples in total, although each filter application uses two of them (blue squares) in a circulant manner. The purple areas represent crops with $C_-=2$ and $C_+=3$ which are discarded. The arrows exemplify which samples of $x$ are involved in the calculation of a particular sample of $y$. Note that, differently from the forward convolution \cref{f:conv}, there is no need to add padding to the input array; instead, the convolution transpose filters can be seen as being applied with maximum input padding (more would result in zero output values), and the latter can be reduced by cropping the output instead.}\label{f:convt}
+	\caption{\textbf{Convolution transpose.} The figure illustrates the process of filtering a 1D signal $x$ by a filter $f$ to obtain a signal $y$. The filter is applied as a sliding-window, forming a pattern which is the transpose of the one of \sref{f:conv}. The filter has $H'=4$ samples in total, although each filter application uses two of them (blue squares) in a circulant manner. The purple areas represent crops with $C_-=2$ and $C_+=3$ which are discarded. The arrows exemplify which samples of $x$ are involved in the calculation of a particular sample of $y$. Note that, differently from the forward convolution \sref{f:conv}, there is no need to add padding to the input array; instead, the convolution transpose filters can be seen as being applied with maximum input padding (more would result in zero output values), and the latter can be reduced by cropping the output instead.}\label{f:convt}
 \end{figure}
 
-The \emph{convolution transpose} block (sometimes referred to as ``deconvolution'') is the transpose of the convolution block described in \cref{s:convolution}. In \matconvnet, convolution transpose is  implemented by the function $vl_nnconvt$.
+The \emph{convolution transpose} block (sometimes referred to as ``deconvolution'') is the transpose of the convolution block described in \sref{s:convolution}. In \matconvnet, convolution transpose is  implemented by the function $vl_nnconvt$.
 
 In order to understand convolution transpose, let:
 \[
@@ -1319,11 +1319,11 @@ In order to understand convolution transpose, let:
 \bff\in\real^{H' \times W' \times D \times D''}, \quad
 \by\in\real^{H'' \times W'' \times D''}, \quad
 \]
-be the input tensor, filters, and output tensors. Imagine operating in the reverse direction by using the filter bank $\bff$ to convolve the output $\by$ to obtain the input $\bx$, using the definitions given in~\cref{s:convolution} for the convolution operator; since convolution is linear, it can be expressed as a matrix $M$ such that  $\vv \bx = M \vv\by$; convolution transpose computes instead $\vv \by = M^\top \vv \bx$. This process is illustrated for a 1D slice in \cref{f:convt}.
+be the input tensor, filters, and output tensors. Imagine operating in the reverse direction by using the filter bank $\bff$ to convolve the output $\by$ to obtain the input $\bx$, using the definitions given in~\sref{s:convolution} for the convolution operator; since convolution is linear, it can be expressed as a matrix $M$ such that  $\vv \bx = M \vv\by$; convolution transpose computes instead $\vv \by = M^\top \vv \bx$. This process is illustrated for a 1D slice in \sref{f:convt}.
 
 There are two important applications of convolution transpose. The first one is the so called \emph{deconvolutional networks}~\cite{zeiler14visualizing} and other networks such as convolutional decoders that use the transpose of a convolution. The second one is implementing data interpolation. In fact, as the convolution block supports input padding and output downsampling, the convolution transpose block supports input upsampling and output cropping.
 
-Convolution transpose can be expressed in closed form in the following rather unwieldy expression (derived in \cref{s:impl-convolution-transpose}):
+Convolution transpose can be expressed in closed form in the following rather unwieldy expression (derived in \sref{s:impl-convolution-transpose}):
 \begin{multline}\label{e:convt}
 y_{i''j''d''} =
 \sum_{d'=1}^{D}
@@ -1354,9 +1354,9 @@ The height of the output array $\by$ is given by
 \[
 H'' = S_h (H - 1) + H' -P^-_h - P^+_h.
 \]
-A similar formula holds true for the width. These formulas are derived in \cref{s:receptive-convolution-transpose} along with an expression for the receptive field of the operator.
+A similar formula holds true for the width. These formulas are derived in \sref{s:receptive-convolution-transpose} along with an expression for the receptive field of the operator.
 
-We now illustrate the action of convolution transpose in an example (see also \cref{f:convt}).  Consider a 1D slice in the vertical direction, assume that the crop parameters are zero, and that $S_h>1$. Consider the output sample $y_{i''}$ where the index $i''$ is chosen such that $S_h$ divides $i''-1$; according to~\eqref{e:convt}, this sample is obtained as a weighted summation of $x_{i'' / S_h},x_{i''/S_h-1},...$ (note that the order is reversed). The weights are the filter elements $f_1$, $f_{S_h}$,$f_{2S_h},\dots$ subsampled with a step of $S_h$. Now consider computing the element $y_{i''+1}$; due to the rounding in the quotient operation $q(i'',S_h)$, this output sample is obtained as a weighted combination of the same elements of the input $x$ that were used to compute $y_{i''}$; however, the filter weights are now shifted by one place to the right: $f_2$, $f_{S_h+1}$,$f_{2S_h+1}$, $\dots$. The same is true for $i''+2, i'' + 3,\dots$ until we hit $i'' + S_h$. Here the cycle restarts after shifting $\bx$ to the right by one place. Effectively, convolution transpose works as an \emph{interpolating filter}.
+We now illustrate the action of convolution transpose in an example (see also \sref{f:convt}).  Consider a 1D slice in the vertical direction, assume that the crop parameters are zero, and that $S_h>1$. Consider the output sample $y_{i''}$ where the index $i''$ is chosen such that $S_h$ divides $i''-1$; according to~\eqref{e:convt}, this sample is obtained as a weighted summation of $x_{i'' / S_h},x_{i''/S_h-1},...$ (note that the order is reversed). The weights are the filter elements $f_1$, $f_{S_h}$,$f_{2S_h},\dots$ subsampled with a step of $S_h$. Now consider computing the element $y_{i''+1}$; due to the rounding in the quotient operation $q(i'',S_h)$, this output sample is obtained as a weighted combination of the same elements of the input $x$ that were used to compute $y_{i''}$; however, the filter weights are now shifted by one place to the right: $f_2$, $f_{S_h+1}$,$f_{2S_h+1}$, $\dots$. The same is true for $i''+2, i'' + 3,\dots$ until we hit $i'' + S_h$. Here the cycle restarts after shifting $\bx$ to the right by one place. Effectively, convolution transpose works as an \emph{interpolating filter}.
 
 % ------------------------------------------------------------------
 \subsection{Spatial pooling}\label{s:pooling}
@@ -1366,20 +1366,20 @@ Pooling can be max or avg pooling. The \emph{max pooling} operator computes the 
 \[
 y_{i''j''d} = \max_{1\leq i' \leq H', 1 \leq j' \leq W'} x_{i''+i'-1,j''+j'-1,d}.
 \]
-resulting in an output of size $\by\in\real^{H''\times W'' \times D}$, similar to the convolution operator of \cref{s:convolution}. Average-pooling computes the average of the values instead:
+resulting in an output of size $\by\in\real^{H''\times W'' \times D}$, similar to the convolution operator of \sref{s:convolution}. Average-pooling computes the average of the values instead:
 \[
 y_{i''j''d} = \frac{1}{W'H'}
 \sum_{1\leq i' \leq H', 1 \leq j' \leq W'} x_{i''+i'-1,j''+j'-1,d}.
 \]
-Detailed calculation of the derivatives is provided in \cref{s:impl-pooling}.
+Detailed calculation of the derivatives is provided in \sref{s:impl-pooling}.
 
-\paragraph{Padding and stride.} Similar to the convolution operator of \cref{s:convolution}, $vl_nnpool$ supports padding the input; however, the effect is different from padding in the convolutional block as pooling regions straddling the image boundaries are cropped. For max pooling, this is equivalent to extending the input data with $-\infty$; for sum pooling, this is similar to padding with zeros, but the normalization factor at the boundaries is smaller to account for the smaller integration area.
+\paragraph{Padding and stride.} Similar to the convolution operator of \sref{s:convolution}, $vl_nnpool$ supports padding the input; however, the effect is different from padding in the convolutional block as pooling regions straddling the image boundaries are cropped. For max pooling, this is equivalent to extending the input data with $-\infty$; for sum pooling, this is similar to padding with zeros, but the normalization factor at the boundaries is smaller to account for the smaller integration area.
 \pagebreak
 % ------------------------------------------------------------------
-\subsection{RoI Pooling}\label{s:roipooling}
+\subsection{RoI Pooling}\label{s:roi-pooling}
 % ------------------------------------------------------------------
 
-RoI Pooling is similar to max-pooling, \cref{s:pooling} at page \pageref{s:pooling}. Let's say our convolutional feature map has size $8\times8$, and our first fully connected layer needs an input of size $2\times2$. RoI Pooling would then follow the figures below.
+RoI Pooling is similar to max-pooling, \sref{s:pooling}. Let's say our convolutional feature map has size $8\times8$, and our first fully connected layer needs an input of size $2\times2$. Region of Interest Pooling would then follow the figures below.
 
 \begin{figure}[htbp]
 	\centering
@@ -1413,7 +1413,7 @@ RoI Pooling is similar to max-pooling, \cref{s:pooling} at page \pageref{s:pooli
 Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. When the region dimensions are not divisible by $N$, the sections of the grid will not all contain the same number of pixels. From each section, we take the greatest pixel value, and arrange these values in an $N\times N$ grid, forming our output. This output is then passed through the fully connected layers.
 
 
-RoI Pooling is used in Fast and Faster R-CNN, \cref{s:nnevo-fastrcnn}
+RoI Pooling is used in Fast \cite{Girshick_2015} and Faster R-CNN, \sref{s:nnevo-fastrcnn}
 
 % ------------------------------------------------------------------
 \subsection{Activation functions}\label{s:activation}
@@ -1432,7 +1432,7 @@ RoI Pooling is used in Fast and Faster R-CNN, \cref{s:nnevo-fastrcnn}
 	\]
 \end{itemize}
 %
-See \cref{s:impl-activation} for implementation details.
+See \sref{s:impl-activation} for implementation details.
 
 % ------------------------------------------------------------------
 \subsection{Spatial bilinear resampling}\label{s:spatial-sampler}
@@ -1464,47 +1464,7 @@ where, for each feature channel $c$, the output $y_{i''j''c}$ at the location $(
 \beta_u = -\frac{W+1}{2}.
 \]
 
-See \cref{s:impl-sampler} for implementation details.
-
-% ------------------------------------------------------------------
-\subsection{Region of interest pooling}\label{s:roi-pooling}
-% ------------------------------------------------------------------
-
-The \emph{region of interest (ROI) pooling} block applies max or average pooling to specified subwindows of a tensor. A region is a rectangular region $R = (u_-,v_-,u_+,v_+)$. The region itself is partitioned into $(H',W')$ tiles along the vertical and horizontal directions. The edges of the tiles have coordinates
-\begin{align*}
-v_{i'} &= v_- + (v_+ - v_- + 1) (i' - 1), \quad i' = 1,\dots,H',\\
-u_{j'} &= u_- + (u_+ - u_- + 1) (j' - 1), \quad j' = 1,\dots,W'.
-\end{align*}
-Following the implementation of Girshick for Fast R-CNN \cite{Girshick_2015}, the $H'\times W'$ pooling tiles are given by
-\[
-\Omega_{i'j'} =
-\{\lfloor v_{i'} \rfloor + 1, \dots, \lceil v_{i'+1} \rceil\}
-\times
-\{\lfloor u_{i'} \rfloor + 1, \dots, \lceil u_{i'+1} \rceil\}.
-\]
-Then the input and output tensors are as follows:
-\[
-\bx \in \mathbb{R}^{H \times W \times C},
-\qquad
-\by \in \mathbb{R}^{H' \times W' \times C},
-\]
-where
-\[
-y_{i'j'c} = \operatornamewithlimits{max}_{(i,j) \in \Omega_{i'j'}} x_{ijc}.
-\]
-Alternatively, $\max$ can be replaced by the averaging operator.
-
-The extent of each region is defined by four coordinates as specified above; however, differently from tensor indexes, these use $(0,0)$ as the coordinate of the top-left pixel. In fact, if there is a single tile ($H'=W'=1$), then the region $(0,0,H-1,W-1)$ covers the whole input image:
-\[
-\Omega_{11} =
-\{1, \dots, W\}
-\times
-\{1, \dots, H\}.
-\]
-
-In more details, the input of the block is a sequence of $K$ regions. Each region pools one of the $T$ images in the batch stored in $\bx \in \mathbb{R}^{H\times W\times C\times T}$. Regions are therefore specified as a tensor $R \in \mathbb{R}^{5 \times K}$, where the first coordinate is the index of the pooled image in the batch. The output is a $\by \in \mathbb{R}^{H' \times W' \times C \times K}$ tensor.
-
-For compatibility with~\cite{Girshick_2015}, furthermore, the region coordinates are rounded to the nearest integer before the definitions above are used. Note also that, due to the discretization details, 1) tiles always contain at least one pixel, 2) there can be a pixel of overlap between them and 3) the discretization has a slight bias towards left-top pixels.
+See \sref{s:impl-sampler} for implementation details.
 
 % ------------------------------------------------------------------
 \subsection{Normalization}\label{s:normalization}
@@ -1520,7 +1480,7 @@ y_{ijk} = x_{ijk} \left( \kappa + \alpha \sum_{t\in G(k)} x_{ijt}^2 \right)^{-\b
 \]
 where, for each output channel $k$, $G(k) \subset \{1, 2, \dots, D\}$ is a corresponding subset of input channels. Note that input $\bx$ and output $\by$ have the same dimensions. Note also that the operator is applied uniformly at all spatial locations.
 
-See \cref{s:impl-ccnormalization} for implementation details.
+See \sref{s:impl-ccnormalization} for implementation details.
 
 % ------------------------------------------------------------------
 \subsubsection{Batch normalization}\label{s:bnorm}
@@ -1540,7 +1500,7 @@ y_{ijkt} = w_k \frac{x_{ijkt} - \mu_{k}}{\sqrt{\sigma_k^2 + \epsilon}} + b_k,
 \quad
 \sigma^2_{k} = \frac{1}{HWT}\sum_{i=1}^H \sum_{j=1}^W \sum_{t=1}^{T} (x_{ijkt} - \mu_{k})^2.
 \]
-See \cref{s:impl-bnorm} for implementation details.
+See \sref{s:impl-bnorm} for implementation details.
 
 % ------------------------------------------------------------------
 \subsubsection{Spatial normalization}\label{s:spnorm}
@@ -1558,7 +1518,7 @@ In practice, the factor $1/W'H'$ is adjusted at the boundaries to account for th
 \[
 y_{i''j''d} = \frac{1}{(1 + \alpha n_{i''j''d}^2)^\beta} x_{i''j''d}.
 \]
-See \cref{s:impl-spnorm} for implementation details.
+See \sref{s:impl-spnorm} for implementation details.
 
 % ------------------------------------------------------------------
 \subsubsection{Softmax}\label{s:softmax}
@@ -1568,13 +1528,13 @@ $vl_nnsoftmax$ computes the softmax operator:
 \[
 y_{ijk} = \frac{e^{x_{ijk}}}{\sum_{t=1}^D e^{x_{ijt}}}.
 \]
-Note that the operator is applied across feature channels and in a convolutional manner at all spatial locations. Softmax can be seen as the combination of an activation function (exponential) and a normalization operator. See \cref{s:impl-softmax} for implementation details.
+Note that the operator is applied across feature channels and in a convolutional manner at all spatial locations. Softmax can be seen as the combination of an activation function (exponential) and a normalization operator. See \sref{s:impl-softmax} for implementation details.
 
 % ------------------------------------------------------------------
 \subsection{Categorical losses}\label{s:losses}
 % ------------------------------------------------------------------
 
-The purpose of a categorical loss function $\ell(\bx,\bc)$ is to compare a prediction $\bx$ to a ground truth class label $\bc$. As in the rest of \matconvnet, the loss is treated as a convolutional operator, in the sense that the loss is evaluated independently at each spatial location. However, the contribution of different samples are summed together (possibly after weighting) and the output of the loss is a scalar. \Cref{s:loss-classification} losses useful for multi-class classification and the \cref{s:loss-attributes} losses useful for binary attribute prediction. Further technical details are in \cref{s:impl-losses}. $vl_nnloss$ implements the following all of these.
+The purpose of a categorical loss function $\ell(\bx,\bc)$ is to compare a prediction $\bx$ to a ground truth class label $\bc$. As in the rest of \matconvnet, the loss is treated as a convolutional operator, in the sense that the loss is evaluated independently at each spatial location. However, the contribution of different samples are summed together (possibly after weighting) and the output of the loss is a scalar. \sref{s:loss-classification} losses useful for multi-class classification and the \sref{s:loss-attributes} losses useful for binary attribute prediction. Further technical details are in \sref{s:impl-losses}. $vl_nnloss$ implements the following all of these.
 
 % ------------------------------------------------------------------
 \subsubsection{Classification losses}\label{s:loss-classification}
@@ -1703,7 +1663,7 @@ Note that this operator is applied convolutionally, i.e. at each spatial locatio
 \[
 y_{ij} = \sum_d |x_{ijd} - \bar x_{ijd}|^p, \qquad p > 0.
 \]
-See \cref{s:impl-pdistance} for implementation details.
+See \sref{s:impl-pdistance} for implementation details.
 
 %% ------------------------------------------------------------------
 %\subsubsection{Product}\label{s:product}
@@ -1835,7 +1795,7 @@ Images and videos are collected everyday by different sources. Recognizing objec
 
 \subsection{Convolutional Neural Network}\label{s:nnevo-cnn}
 
-Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} \cite{fukushima1980neocognitron}, a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)\cite{Girshick_2014} can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM, Fig~\ref{fig:svm}), in 2012 it was revitalize by Krizhevsky et al. \cite{krizhevsky2012imagenet} by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. 
+Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} \cite{fukushima1980neocognitron}, a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)\cite{Girshick_2014} can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM, \fref{fig:svm}), in 2012 it was revitalize by Krizhevsky et al. \cite{krizhevsky2012imagenet} by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. 
 
 \subsection{Region-based CNN}\label{s:nnevo-rcnn}
 
@@ -1890,7 +1850,7 @@ Fast R-CNN, instead of running the CNN for each region, runs it just a single ti
 
 This tackled the problem of complexity that arises in other deep ConvNets, caused by the multi-stage pipelines that are slow. The slow nature is due to the fact that detection requires accurate localization of objects that creates the challenge of that many proposals (candidate object locations) must be processed and these proposals provides only rough localization that must be refined to achieve precise localization. Fast R-CNN is 9 X faster than R-CNN \cite{Girshick_2014} and 3 X faster than SPPnet \cite{he2015spatial}. R-CNN was sped up by \emph{Spatial pyramid pooling networks (SPPnets)}\cite{he2015spatial} by sharing computation. A convolutional feature map for the entire input image was computed by SPPnet method. After which it then classifies each object proposal using a feature vector extracted from the shared feature map. 
 
-Fig.~\ref{f:fast-rcnn-arch} below makes it clear that Fast R-CNN proposes regions of interest ``RoI" from the input image. These are generated using a region proposal algorithm (e.g. Selective Search), just like they were in R-CNN.
+\fref{f:fast-rcnn-arch} below makes it clear that Fast R-CNN proposes regions of interest ``RoI" from the input image. These are generated using a region proposal algorithm (e.g. Selective Search), just like they were in R-CNN.
 
 \begin{figure}[H]
 	\centering
@@ -1899,14 +1859,23 @@ Fig.~\ref{f:fast-rcnn-arch} below makes it clear that Fast R-CNN proposes region
 	\label{f:fast-rcnn-arch}
 \end{figure}
 
-However, in Fast R-CNN, as Fig.~\ref{f:fastrcnn} shows, these regions of interest are then projected onto the convolutional feature map. This allows us to re-use the expensive convolutional computation. We take crops from this feature map and run them through the rest of the network. The question then becomes: how exactly do we \textit{project} a region of the input image onto a region of the convolutional feature map?
+However, in Fast R-CNN, as \fref{f:fastrcnn} shows, these regions of interest are then projected onto the convolutional feature map. This allows us to re-use the expensive convolutional computation. We take crops from this feature map and run them through the rest of the network. The question then becomes: how exactly do we \textit{project} a region of the input image onto a region of the convolutional feature map?
 
 The SPPNet paper (``Spatial Pyramid Pooling in Deep Convolutional
 Networks for Visual Recognition" by He et al.)~\cite{he2015spatial}, which came out between R-CNN and Fast R-CNN, first introduced the idea of RoI projection.
 
-RoI Projections are of course different from cropping an image, so here comes RoI Pooling, which is described in \cref{s:roipooling}.
+RoI Projections are of course different from cropping an image, so here comes RoI Pooling, which is described in \sref{s:roi-pooling}.
 
 SPPnet also has obvious pitfalls. It is a multi-stage pipeline similar to R-CNN that involves extracting features, refining a network with log loss, training SVMs, and lastly fitting bounding-box regressors. Features are also written to disk. But unlike R-CNN, the refining algorithm demonstrated in SPPnet cannot update the convolutional layers that precede the spatial pyramid pooling. This constraint limits the accuracy of very deep networks.
+
+Even though SVMs worked better than Softmax [\sref{s:softmax}] in R-CNN, the opposite is true for Fast R-CNN. Also, Fast R-CNN greatly improves upon the speed of R-CNN—so much so that the region proposal algorithm takes the vast majority of time during testing, as shown in \fref{f:chart}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{images/chart.png} %second
+	\caption{Training Time R-CNN, SPPNet and Fast R-CNN. Blue bars include region proposal algorithm.}
+	\label{f:chart}
+\end{figure}
 
 \subsection{Faster R-CNN}\label{s:nnevo-fasterrcnn}
 
@@ -1916,14 +1885,14 @@ Changing the architecture of the pyramids of filter to a top-down architecture w
 
 \subsection{Mask R-CNN}\label{s:nnevo-maskrcnn}
 
-In order to generate a high-quality segmentation mask for object instances in an image, \maskrcnn was developed \cite{He_2017}. \maskrcnn add another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN. 
+In order to generate a high-quality segmentation mask for object instances in an image, \maskrcnn was developed \cite{He_2017}. \maskrcnn adds another branch to the Faster R-CNN. In addition to the bounding box recognition system a branch for predicting an object mask in parallel was added. It affixes only a bijou overhead to Faster R-CNN. 
 
 This allows for our task: Instance Segmentation
 
 
 \section{Instance Segmentation}\label{s:maskrcnn}
 
-Instance Segmentation is one of the most difficult image-based computer vision tasks. It combines elements of semantic segmentation (pixel-level classification) and object detection (instance recognition). Essentially, at every pixel, we wish to classify not only the type of object (or background) the pixel is part of, but also determine which instance the pixel is part of, as described in \cref{s:patt}
+Instance Segmentation is one of the most difficult image-based computer vision tasks. It combines elements of semantic segmentation (pixel-level classification) and object detection (instance recognition). Essentially, at every pixel, we wish to classify not only the type of object (or background) the pixel is part of, but also determine which instance the pixel is part of, as described in \sref{s:patt}
 
 \begin{figure}[H]
 	\centering
@@ -1938,7 +1907,7 @@ A previous ``fully convolutional instance segmentation" (FCIS) solution, which p
 
 The mask ``head" is simply a small fully convolutional network that outputs an $m\times m$ mask for each region proposal. We use a fully convolutional network rather than fully connected layers so we do not lose spatial information. A fully convolutional solution requires fewer parameters than previous fully connected solutions while simultaneously increasing accuracy.
 
-The two diagrams at the bottom of Fig~\ref{f:fastermaskrcnn} show a different visualization of Faster R-CNN and \maskrcnn. Besides the additional ``mask" head of \maskrcnn, you may have noticed RoIAlign replacing RoI Pooling. We will cover this in the next section.
+The two diagrams at the bottom of \fref{f:fastermaskrcnn} show a different visualization of Faster R-CNN and \maskrcnn. Besides the additional ``mask" head of \maskrcnn, you may have noticed RoIAlign replacing RoI Pooling. We will cover this in the next section.
 
 \begin{figure}[H]
 	\centering
@@ -1988,7 +1957,7 @@ If you are unfamiliar or have forgotten RoI Pooling, please refer back to Sectio
 	\includegraphics[scale=0.35]{images/roialign5.PNG}
 \end{center}
 
-Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. Unlike RoI Pooling, these regions will contain the exact same number of pixels, so we will often have fractional pixels. From each grid cell, we sample four regions as shown by the red $\times$ marks in the third image. We then subdivide each grid cell into four subcells, each centered on an $\times$. We perform bilinear interpolation to get a single value for each subregion, or four values for each cell. These values are shown in the fourth image. Finally, we perform a simple max pooling (\cref{s:pooling}) on the bilinear interpolated values, taking the maximum value per cell to reach an $N\times N$ output. This output is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up our masking head.
+Simply put, if an $N\times N$ output is desired, the proposed region (black rectangle in the upper-right image) is divided into an $N\times N$ grid. Unlike RoI Pooling, these regions will contain the exact same number of pixels, so we will often have fractional pixels. From each grid cell, we sample four regions as shown by the red $\times$ marks in the third image. We then subdivide each grid cell into four subcells, each centered on an $\times$. We perform bilinear interpolation to get a single value for each subregion, or four values for each cell. These values are shown in the fourth image. Finally, we perform a simple max pooling (\sref{s:pooling}) on the bilinear interpolated values, taking the maximum value per cell to reach an $N\times N$ output. This output is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up our masking head.
 
 Of course, you should have one question remaining: What exactly is bilinear interpolation?
 
@@ -2190,7 +2159,7 @@ where $X\in\real^{(HW)\times D}$ is the matrix obtained by reshaping $\bx$. Nota
 \subsection{Convolution transpose}\label{s:impl-convolution-transpose}
 % ------------------------------------------------------------------
 
-In order to understand the definition of convolution transpose, let $\by$ to be obtained from $\bx$ by the convolution operator as defined in \cref{s:convolution} (including padding and downsampling).  Since this is a linear operation, it can be rewritten as $\vv \by = M \vv\bx$ for a suitable matrix $M$; convolution transpose computes instead $\vv \bx = M^\top \vv \by$.  While this is simple to describe in term of matrices, what happens in term of indexes is tricky. In order to derive a formula for the convolution transpose, start from standard convolution (for a 1D signal):
+In order to understand the definition of convolution transpose, let $\by$ to be obtained from $\bx$ by the convolution operator as defined in \sref{s:convolution} (including padding and downsampling).  Since this is a linear operation, it can be rewritten as $\vv \by = M \vv\bx$ for a suitable matrix $M$; convolution transpose computes instead $\vv \bx = M^\top \vv \by$.  While this is simple to describe in term of matrices, what happens in term of indexes is tricky. In order to derive a formula for the convolution transpose, start from standard convolution (for a 1D signal):
 \[
 y_{i''} = \sum_{i'=1}^{H'} f_{i'} x_{S (i''-1) + i' - P_h^-}, 
 \quad
@@ -2251,7 +2220,7 @@ Note that the summation extrema in \eqref{e:convt-step} can be refined slightly 
 \left\lfloor \frac{k-1 + P_h^-}{S} \right\rfloor
 \right\}.
 \end{multline*}
-The size $H''$ of the output of convolution transpose is obtained in \cref{s:receptive-convolution-transpose}.
+The size $H''$ of the output of convolution transpose is obtained in \sref{s:receptive-convolution-transpose}.
 
 % ------------------------------------------------------------------
 \subsection{Spatial pooling}\label{s:impl-pooling}
@@ -2350,7 +2319,7 @@ p_{i''k''c}
 \max\{0, 1-|\alpha_v g_{1i''j''} + \beta_v -i|\}
 \max\{0, 1-|\alpha_u g_{2i''j''} + \beta_u -j|\}.
 \end{multline}
-Note that the formula is similar to Eq.~\ref{e:bilinear}, with the difference that summation is on $i''$ rather than $i$.
+Note that the formula is similar to \eref{e:bilinear}, with the difference that summation is on $i''$ rather than $i$.
 
 The projected derivative $d\langle \bp, \phi(\bx,\bg)\rangle / d\bg$ with respect to the grid is similar:
 \begin{multline}\label{e:bilinear-back-g}
@@ -2623,7 +2592,7 @@ $\bx$ and $\by$. Note that the numerical implementation of this expression is st
 \subsection{Categorical losses}\label{s:impl-losses}
 % ------------------------------------------------------------------
 
-This section obtains the projected derivatives of the categorical losses in \cref{s:losses}. Recall that all losses give a scalar output, so the projection tensor $p$ is trivial (a scalar).
+This section obtains the projected derivatives of the categorical losses in \sref{s:losses}. Recall that all losses give a scalar output, so the projection tensor $p$ is trivial (a scalar).
 
 % ------------------------------------------------------------------
 \subsubsection{Classification losses}\label{s:impl-loss-classification}
