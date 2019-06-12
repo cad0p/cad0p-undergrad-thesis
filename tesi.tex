@@ -27,6 +27,29 @@
 \usepackage{cleveref}
 \usepackage{float} %instance segm
 
+
+
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}[2][]
+{\if\relax\detokenize{#1}\relax
+	\def\quoteauthor{#2}%
+	\else
+	\def\quoteauthor{#2~---~#1}%
+	\fi
+	\oldquote}
+{\par\nobreak\smallskip\hfill(\quoteauthor)%
+	\endoldquote\addvspace{\bigskipamount}}
+
+
+% Example usage of quote:
+%\begin{quote}[Somewhere]{Somebody}
+%	This is a quote This is a quote This is a quote
+%	This is a quote This is a quote This is a quote
+%	This is a quote This is a quote This is a quote
+%\end{quote}
+
+
 \newtheorem{example}{Example}
 \newtheorem{lemma}{Lemma}
 
@@ -51,14 +74,14 @@
 \newcommand{\argmin}{\operatornamewithlimits{argmin}}
 \newcommand{\argmax}{\operatornamewithlimits{argmax}}
 \newcommand{\sign}{\operatornamewithlimits{sign}}
-\newcommand{\maskrcnn}{\textsc{Mask R-CNN}\xspace}
+\newcommand{\maskrcnn}{\textsc{Mask R-CNN} [\sref{s:maskrcnn}]\xspace}
 \newcommand{\modanet}{\textsc{ModaNet}\xspace}
 
-% adding page numbers to references!
-\newcommand{\fref}[1]{Fig.~\ref{#1}  (p.~\pageref{#1})} %figure
-\newcommand{\eref}[1]{Eq.~\ref{#1}  (p.~\pageref{#1})} %equation
-\newcommand{\tref}[1]{Table~\ref{#1}  (p.~\pageref{#1})} %table
-\newcommand{\sref}[1]{\cref{#1}  (p.~\pageref{#1})} %section
+% adding page numbers to references! (just run it two times if you see "??")
+\newcommand*{\fref}[1]{Fig.~\ref{#1}  (p.~\pageref{#1})} %figure
+\newcommand*{\eref}[1]{Eq.~\ref{#1}  (p.~\pageref{#1})} %equation
+\newcommand*{\tref}[1]{Table~\ref{#1}  (p.~\pageref{#1})} %table
+\newcommand*{\sref}[1]{\cref{#1}  (p.~\pageref{#1})} %section
 
 \tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=3em]
 \tikzstyle{data} = []
