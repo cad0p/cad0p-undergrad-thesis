@@ -544,12 +544,10 @@ In other words, we would like the inputs of Perceptron 3 to both be 1 between th
 
 
 % ------------------------------------------------------------------
-\subsection{How they work}\label{s:cnn-structure}
+\subsection{Convolutional Neural Network}\label{s:cnn-structure}
 % ------------------------------------------------------------------
 
 A \emph{Neural Network} (NN) is a function $g$ mapping data $\bx$, for example an image, to an output vector $\by$, for example an image label. The function $g=f_L \circ \dots \circ f_1$ is the composition of a sequence of simpler functions $f_l$, which are called \emph{computational blocks} [\sref{s:blocks}] or \emph{layers}. Let $\bx_1,\bx_2,\dots,\bx_L$ be the outputs of each layer in the network, and let $\bx_0=\bx$ denote the network input. Each intermediate output $\bx_l = f_l(\bx_{l-1};\bw_l)$ is computed from the previous output $\bx_{l-1}$  by applying the function $f_l$ with parameters $\bw_l$. 
-
-\subsubsection{Convolutional Neural Network}
 
 In a \emph{Convolutional Neural Network} (CNN), the data has a spatial structure: each $\bx_l\in\mathbb{R}^{H_l \times W_l \times C_l}$ is a 3D array or \emph{tensor} where the first two dimensions $H_l$ (height) and $W_l$ (width) are interpreted as spatial dimensions. The third dimension $C_l$ is instead interpreted as the \emph{number of feature channels}. Hence, the tensor $\bx_l$ represents a $H_l \times W_l$ field of $C_l$-dimensional feature vectors, one for each spatial location. A fourth dimension $N_l$ in the tensor spans multiple data samples packed in a single \emph{batch} for efficiency parallel processing. The number of data samples $N_l$ in a batch is called the batch \emph{cardinality}. The network is called \emph{convolutional} because the functions $f_l$ are local and translation invariant operators (i.e.\ non-linear filters) like linear convolution.
 
@@ -560,7 +558,7 @@ There are a variety of layers such as (convolution),  (convolution transpose or 
 NNs are often used as classifiers or regressors. In the example of \sref{f:demo}, the output $\hat \by = f(\bx)$ is a vector of probabilities, one for each of a 1,000 possible image labels (dog, cat, trilobite, ...).  If $\by$ is the true label of image $\bx$, we can measure the CNN performance by a loss function $\ell_\by(\hat \by)  \in \mathbb{R}$ which assigns a penalty to classification errors. The CNN parameters can then be tuned or \emph{learned} to minimize this loss averaged over a large dataset of labelled example images.
 
 % ------------------------------------------------------------------
-\paragraph{Optimizers}\label{s:cnn-optimizers}
+\subsubsection{Optimizers}\label{s:cnn-optimizers}
 % ------------------------------------------------------------------
 
 Learning generally uses a variant of \emph{stochastic gradient descent} (SGD). While this is an efficient method (for this type of problems), networks may contain several million parameters and need to be trained on millions of images. SGD also requires to compute the CNN derivatives, as explained in the next section. Our \maskrcnn uses Adam as optimizer, not SGD, although SGD seems to have better segmentation performance, albeit a bit slower to learn \cite{wilson2017marginal}.
@@ -861,6 +859,8 @@ In order to implement backpropagation, the CNN for each layer $f$ can have:
 \end{itemize}
 %This is best illustrated with an example. Consider a layer $f$ such as the convolution operator. In the ``forward'' mode, one calls the function as $y = vl_nnconv(x,w,[])$ to apply the filters $w$ to the input $x$ and obtain the output $y$. In the ``backward mode'', one calls $[dx, dw] = vl_nnconv(x,w,[],p)$.  As explained above, $dx$, $dw$, and $p$ have the same size as $x$, $w$, and $y$, respectively. The computation of large Jacobian is encapsulated in the function call and never carried out explicitly. 
 
+% TODO training algorithm with mention to overfitting
+
 \paragraph{Backpropagation networks}\label{s:bpnets}
 
 In this section, we provide a schematic interpretation of backpropagation and show how it can be implemented by ``reversing'' the NN computational graph.
@@ -1075,7 +1075,6 @@ Backpropagation can be summarized as follows:
 	\end{minipage}}
 \end{center}
 
-% TODO: what to do with multiple outputs
 
 
 \begin{figure}[H]
@@ -1345,6 +1344,8 @@ f_{i'j'd} \times x_{
 \subsubsection{Convolution transpose (deconvolution)}\label{s:convt}
 % ------------------------------------------------------------------
 
+% TODO delete deconvolution?
+
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.7\textwidth]{figures/svg/convt}
@@ -1535,20 +1536,33 @@ And that's all RoIAlign is. It achieves the same goal as RoI Pooling, which is t
 \subsubsection{Activation functions}\label{s:activation}
 % ------------------------------------------------------------------
 
-%
-\begin{itemize}
-	\item \emph{Rectified Linear Unit} (ReLU):
+% ------------------------------------------------------------------
+\paragraph{Rectified Linear Unit}\label{s:relu}
+% ------------------------------------------------------------------
+(ReLU):
 	\[
 	y_{ijd} = \max\{0, x_{ijd}\}.
 	\]
 	
-	\item \emph{Sigmoid.}:
+
+% ------------------------------------------------------------------
+\paragraph{Sigmoid}\label{s:sigmoid}
+% ------------------------------------------------------------------
+The sigmoid operator is:
 	\[
 	y_{ijd} = \sigma(x_{ijd}) = \frac{1}{1+e^{-x_{ijd}}}.
 	\]
-\end{itemize}
-%
+% ------------------------------------------------------------------
+\paragraph{Softmax}\label{s:softmax}
+% ------------------------------------------------------------------
 
+The softmax operator is:
+\[
+y_{ijk} = \frac{e^{x_{ijk}}}{\sum_{t=1}^D e^{x_{ijt}}}.
+\]
+Note that the operator is applied across feature channels and in a convolutional manner at all spatial locations. Softmax can be seen as the combination of an activation function (exponential) and a normalization operator. 
+
+This function essentially takes the sum of all the outputs and raises it to $e$ to make it positive. It then calculates the probability of each label by taking its value raised to $e$ over the total sum just calculated, which essentially shows us how much of the sum it consists of, nicely giving us a probability.
 
 
 % ------------------------------------------------------------------
@@ -1605,19 +1619,6 @@ y_{i''j''d} = \frac{1}{(1 + \alpha n_{i''j''d}^2)^\beta} x_{i''j''d}.
 
 
 % ------------------------------------------------------------------
-\paragraph{Softmax}\label{s:softmax}
-% ------------------------------------------------------------------
-
-The softmax operator is:
-\[
-y_{ijk} = \frac{e^{x_{ijk}}}{\sum_{t=1}^D e^{x_{ijt}}}.
-\]
-Note that the operator is applied across feature channels and in a convolutional manner at all spatial locations. Softmax can be seen as the combination of an activation function (exponential) and a normalization operator. 
-
-This function essentially takes the sum of all the outputs and raises it to $e$ to make it positive. It then calculates the probability of each label by taking its value raised to $e$ over the total sum just calculated, which essentially shows us how much of the sum it consists of, nicely giving us a probability.
-
-
-% ------------------------------------------------------------------
 \subsubsection{Categorical losses}\label{s:losses}
 % ------------------------------------------------------------------
 
@@ -1626,6 +1627,8 @@ The purpose of a categorical loss function $\ell(\bx,\bc)$ is to compare a predi
 % ------------------------------------------------------------------
 \paragraph{Classification losses}\label{s:loss-classification}
 % ------------------------------------------------------------------
+
+% TODO forse mettere le losses nella nuova sezione train algorithm?
 
 Classification losses decompose additively as follows:
 \begin{equation}\label{e:addloss}
@@ -1827,7 +1830,7 @@ After having explained the basic features of Neural Networks [\sref{s:perc}] and
 
 \subsection{Convolutional Neural Network}\label{s:nnevo-cnn}
 
-Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} \cite{fukushima1980neocognitron}, a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)\cite{Girshick_2014} can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM, \fref{fig:svm}), in 2012 it was revitalize by Krizhevsky et al. \cite{krizhevsky2012imagenet} by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC), explained in \ref{s:imagenet}, and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. 
+Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{ “neocognitron”} \cite{fukushima1980neocognitron}, a hierarchical and shift-invariant model for pattern recognition, the use of CNN for region-based identification (R-CNN)\cite{Girshick_2014} can also be traced back to the same.  After CNN was considered inelegant in the 1990s due to the rise of support vector machine (SVM, \fref{fig:svm}), in 2012 it was revitalize by Krizhevsky et al. \cite{krizhevsky2012imagenet} by demonstrating a valuable improvement in image classification accuracy on the ImageNet Large Scale Visual Recognition Challenge (ILSVRC), explained in \ref{s:imagenet}, and included new mechanisms to CNN like rectified linear unit (ReLU) and, dropout regularization. You can check out the tecnical details on how a CNN works in \sref{s:cnn-structure}.
 
 \subsection{Region-based CNN}\label{s:nnevo-rcnn}
 
@@ -1990,7 +1993,7 @@ The two diagrams at the bottom of \fref{f:fastermaskrcnn} show a different visua
 	\label{f:fastermaskrcnn}
 \end{figure}
 
-The output of RoI Align then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up the masking head.
+The output of RoI Align is then passed through the fully connected layers for bounding-box regression and classification, and through the small Fully Convolutional Network (FCN) that makes up the masking head.
 
 \subsection{Mask Head}\label{s:maskrcnn-maskhead}
 Depending on the network backbone, the mask head differs for \maskrcnn. Below is a look at the two different heads. Both are trivial FCNs.
@@ -2072,8 +2075,8 @@ The results on the COCO and Cityscapes benchmarks are shown below. \maskrcnn per
 \end{figure}
 \maskrcnn can also be used for human pose estimation.
 
-\subsection{Conclusion}
-\maskrcnn leaps ahead of the competition in terms of pure instance segmentation performance. However, no current instance segmentation method can achieve great results while operating in real-time (60 FPS). In the future, look for networks which dramatically improve segmentation speed as well as accuracy.
+
+\maskrcnn leaps ahead of the competition in terms of pure instance segmentation performance. However, no current instance segmentation method can achieve great results while operating in real-time (60 FPS). In the future, we look for networks which dramatically improve segmentation speed as well as accuracy.
 
 
 
