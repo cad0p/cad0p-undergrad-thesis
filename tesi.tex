@@ -1,5 +1,9 @@
 \PassOptionsToPackage{italian,english}{babel}
 \documentclass[12pt,a4paper,oneside,openright]{book}
+
+\setcounter{secnumdepth}{3} % it actually equals to 4 levels of depth numbering
+% for example 1.1.1.1 (equivalent to a subsubsection)
+
 \usepackage{packages} % inserisce tutti le macro necessarie per il
                         % funzionamento
 \usepackage{frontesp} % modificare questo file per i diplomi e se si ha
@@ -23,10 +27,15 @@
 \usepackage{textcomp}
 \usepackage{fancyvrb}
 \usepackage{array}
-\usepackage[colorlinks]{hyperref}
-\usepackage{cleveref}
+
 \usepackage{float} %instance segm
 \usepackage{tabularx} %modanet
+\usepackage{placeins} %floatbarrier
+\usepackage[super]{nth} % paperdoll release date and dates in general
+
+%\usepackage[colorlinks]{hyperref}
+\usepackage[colorlinks,plainpages=false,hyperindex,bookmarksopen,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage{cleveref}
 
 
 
@@ -176,7 +185,7 @@
 \renewcommand{\chaptermark}[1]{\markboth{{\appendixname}\ \thechapter.\hspace{1em}#1}{}}
 
 \clearpage
-\addcontentsline{toc}{chapter}{Bibliografia}
+\addcontentsline{toc}{chapter}{Bibliogphy}
 \bibliography{citazioni}
 %\bibliographystyle{abbrv}
 \bibliographystyle{ieeetr}
