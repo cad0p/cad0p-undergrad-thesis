@@ -1940,7 +1940,7 @@ Just as Convolutional Neural Network (CNN) is traced to the Fukushima’s \emph{
 
 \subsection{Region-based CNN}\label{s:nnevo-rcnn}
 
-To perform object detection with CNN and in attempt to bridge the gap between image segmentation and object detection two issues were fixed by R.Girshick et al \cite{Girshick_2014}. First was the localization of objects with a Deep Network and training a high-capacity model with only a small quantity of annotated detection data. Use of a sliding-window detector was proposed for the localization of object but was not preferred because it can only work for one object detection and all objects in an image have to have a common aspect ratio for its use in multiple object detection. Instead the localization problem was solved by operating within the “recognition using regions” paradigm.
+To perform object detection with CNN and in attempt to bridge the gap between image segmentation and object detection two issues were fixed by R.Girshick et al. \cite{Girshick_2014}. First was the localization of objects with a Deep Network and training a high-capacity model with only a small quantity of annotated detection data. Use of a sliding-window detector was proposed for the localization of object but was not preferred because it can only work for one object detection and all objects in an image have to have a common aspect ratio for its use in multiple object detection. Instead the localization problem was solved by operating within the “recognition using regions” paradigm.
 
 The Region-based Convolutional Neural Network (R-CNN) is relatively simple. First, we propose some regions of an image which contain objects. We feed these regions into a CNN, and then we use an SVM to classify the outputs for each class.
 
