@@ -4,7 +4,9 @@
 \selectlanguage{english}
 \section*{English Abstract}
 
-The task I was given was detecting clothing and shoes in real world images -- the IMP Lab team had previously only trained the algorithms using studio quality images (of shoes).
+The task I was given was detecting clothing and shoes in real world images -- the IMP Lab team had previously only trained the algorithms using studio quality images.
+
+Apparel instance segmentation is composed of two tasks: finding the objects (instances), and drawing a line around them (segmentation). What previously had to be done by hand, now can be done automatically by a computer. This work allows for future implementation on, for example, Instagram -- the biggest social site for apparel images. We could track how a clothing item is used, where, and with whom. Or measure how well a Creator/Influencer is doing in promoting the products he/she was paid to wear.
 
 What I did was use an existing neural network and search for a dataset to train it for detecing clothing on user generated images. This means that the program (for which I created a Command Line Interface) takes as input an image file (or a URL to an image) and returns a processed image; in which annotations such as whether the person is wearing pants, skirts, a dress, footwear or other labels are appended and shown, with a rectangular bounding box and a corresponding mask inside.
 
@@ -22,15 +24,18 @@ In the meantime, at dark times when I couldn't go forward without some advising,
 
 I also made nice customizable viewing commands to see the processed images, and to quickly scan through the validation set (via the --set-all option) to see if the algorithm has improved or not based on your training.
 
-I then fixed a longtime error -- many annotations gave a warning of "invalid indexes" during training because they went outside the images' borders. This way, the dataset got twice as big in an instant, so I decided to redo all the tests.
+I then fixed a longtime error -- many annotations gave a warning of "invalid indexes" during training because they went outside the images' borders. This way, the dataset got twice as big in an instant, so I decided to redo all the tests. I also discovered that many footwear annotations had been wrongly labeled, with overlapping bounding boxes and shapes belonging to more than one box. There are still cases of that happening now, but they have been almost halved.
 
-I then proceeded changing the hyperparameters on the training algorithm to analyze the effect they have on the model's accuracy.
+This allowed the algorithm to better grasp footwear and boots, something it had never been able to do in months.
 \pagebreak
 
 \selectlanguage{italian}
 \section*{Italian Abstract}
 
+
 Il task che ho scelto era di riconoscere vestiti e scarpe in immagini scattate in condizioni naturali -- l'IMP Lab dell'Università con cui ho svolto questa tesi aveva fino ad ora solo addestrato gli algoritmi usando immagini di alta qualità e con sfondo uniforme.
+
+Il problema di segmentazione di istanze di abbigliamento è diviso in due parti: trovare gli oggetti (instances), e contornarli (segmentation). Quello che prima doveva essere fatto a mano, ora piò essere fatto da un computer. Questa implementazione permette futuri lavori di applicazione su, per esempio, Instagram -- il social network più in voga oggi per condivisione di capi di abbigliamento. Si potrebbe analizzare ad esempio come un tipo di vestito è usato, in che contesto e con chi. O misurare l'impatto che gli Influencers hanno sui propri fan, in relazione agli oggetti che promuovono (e che sono pagati per promuovere).
 
 Quello che ho fatto è usare un neural network esistente e cercare un dataset per fargli imparare a riconoscere abbigliamento in immagini generate da persone. Questo significa che il programma (per il quale ho creato una Command Line Interface) prende come input un file di immagine (o l'URL a un'immagine) e ritorna un'immagine processata; nella quale le annotazioni, come per esempio se una persona indossa pantaloni, gonne, un vestito o altri label, sono aggiunte all'immagine e mostrate all'utente. Con un bounding box rettangolare e una maschera corrispondente all'interno.
 
@@ -47,9 +52,9 @@ Nel frattempo che io cercavo di risolvere i problemi insormontabili, il computer
 
 Ho fatto anche utili comandi per vedere facilmente il risultato dando in pasto immagini manualmente o dal validation set.
 
-Ho poi sistemato un errore che avevamo dato per perso: molte annotazioni venivano buttate via perchè uscivano, seppur di poco, dall'immagine. Dopo aver verificato che le annotazioni "invalide" erano corrette, le abbiamo ridimensionate per farle stare dentro all'immagine. Per questo avevo deciso di rifare i test per vedere i miglioramenti.
+Ho poi sistemato un errore che avevamo dato per perso: molte annotazioni venivano buttate via perchè uscivano, seppur di poco, dall'immagine. Dopo aver verificato che le annotazioni "invalide" erano corrette, le abbiamo ridimensionate per farle stare dentro all'immagine. Per questo avevo deciso di rifare i test per vedere i miglioramenti. I risultati dopo questo test erano quasi identici. Infatti il problema non era nelle annotazioni che andavano fuori dall'immagine, ma nei bounding box che erano sovrapposti e non seguivano le segmentazioni di scarpe e footwear. Ho quindi sistemato, per quanto possibile, le annotazioni e i bounding box sovrapposti sono stati dimezzati.
 
-Infine, abbiamo modificato gli hyperparameters per l'addestramento per analizzare il loro impatto nell'accuratezza del risultato.
+Grazie a quest'ultimo accorgimento, finalmente l'algoritmo è ora in grado di riconoscere correttamente tutte e 13 le categorie per cui è stato addestrato.
 
 
 

@@ -8,3 +8,4 @@
 *.lot
 *.bbl
 *.blg
+*.synctex(busy)
