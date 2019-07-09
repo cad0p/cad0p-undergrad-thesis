@@ -88,9 +88,9 @@ And here are some examples. We selected 12 images randomly and show them for som
 \subsection{Showing segments instead of full processed image}
 
 This was the first task I was given, as also said on the Abstract. It invoved some knowledge into np arrays. Basically I had to override the function that drew the annotation over the image to make it draw black (or white, whatever, I chose black) outside that particular annotation.
-And it would show the results for each segment (annotation) of the image, instead than for the whole image. This has been implemented in the CLI [CLI explained in \sref{s:ds-package}] under an option in the processimage command, which you'll see below in \sref{s:processimages}.
+And it would show the results for each segment (annotation) of the image, instead than for the whole image. This has been implemented in the CLI [CLI explained in \sref{s:ds-package}] under an option in the processimage command, which you'll see below in \sref{s:processimage}.
 
-\lstinputlisting[language=Python, breaklines=true, firstline=76, lastline=78]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/processimages.py}
+\lstinputlisting[language=Python, breaklines=true, firstline=125, lastline=127]{../maskrcnn-modanet/maskrcnn_modanet/processimages.py}
 
 The key lines above.
 
@@ -122,11 +122,11 @@ This is interesting and I even showed this as my project for the exam “Telemat
 
 I first validate that the URL contains a file (and not a text or html).
 
-\lstinputlisting[language=Python, breaklines=true, firstline=41, lastline=61]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/cli/validators.py}
+\lstinputlisting[language=Python, breaklines=true, firstline=41, lastline=61]{../maskrcnn-modanet/maskrcnn_modanet/cli/validators.py}
 
 Then I retrieve the image:
 
-\lstinputlisting[language=Python, breaklines=true, firstline=174, lastline=178]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/processimages.py}
+\lstinputlisting[language=Python, breaklines=true, firstline=231, lastline=235]{../maskrcnn-modanet/maskrcnn_modanet/processimages.py}
 
 \subsection{Saving processed images}
 

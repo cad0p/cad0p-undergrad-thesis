@@ -80,16 +80,16 @@ Abandoning this initial thought, I proceeded splitting the annotations the “ri
 
 \subsection{V1: by annotation}\label{s:splitting-1}
 
-\lstinputlisting[language=Python, firstline=1, lastline=37]{"/Volumes/My Book Cadoppi/DriveUni/3/Thesis cad0p/saveannotationsV1.py"}
+\lstinputlisting[language=Python, firstline=1, lastline=37]{saveannotationsV1.py}
 
 In these first lines, I set the percentages, and you can see I correct them if the input is wrong.
 I create the training, validation, and test set by copying the common features they have.
 
-\lstinputlisting[language=Python, firstline=39, lastline=48]{"/Volumes/My Book Cadoppi/DriveUni/3/Thesis cad0p/saveannotationsV1.py"}
+\lstinputlisting[language=Python, firstline=39, lastline=48]{saveannotationsV1.py}
 
 Here I create the arrays I need to make this program fly through the annotations.
 
-\lstinputlisting[language=Python, firstline=50, lastline=73, breaklines=true]{"/Volumes/My Book Cadoppi/DriveUni/3/Thesis cad0p/saveannotationsV1.py"}
+\lstinputlisting[language=Python, firstline=50, lastline=73, breaklines=true]{saveannotationsV1.py}
 
 This is the juicy part: for every annotation, it selects randomly (based also on the seed) to which set to append the corresponding annotation, and tells the program to later add the corresponding images to their set (which could be more than one, as explained earlier)
 
@@ -116,7 +116,7 @@ We can see the difficulty of creating the program is proportional to the spannin
 
 Here are some used in V2:
 
-\lstinputlisting[language=Python, breaklines=true, firstline=84, lastline=98]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/arrange_annotations.py}
+\lstinputlisting[language=Python, breaklines=true, firstline=87, lastline=101]{../maskrcnn-modanet/maskrcnn_modanet/arrange_annotations.py}
 
 
 \section{Fixing the annotations!}\label{s:fixing}
@@ -135,7 +135,7 @@ Back to the code, I deleted the double shapes from one of the annotations, with 
 
 Here's a snippet:
 
-\lstinputlisting[language=Python, breaklines=true, firstline=314, lastline=330]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/fix_annotations.py}
+\lstinputlisting[language=Python, breaklines=true, firstline=316, lastline=332]{../maskrcnn-modanet/maskrcnn_modanet/fix_annotations.py}
 
 There was usually a wrong box and a correct one, so I tried to find: which one is the correct one?
 

@@ -323,7 +323,10 @@ $ gunzip -c chictopia.sql.gz | sqlite3 chictopia.sqlite3
 
 This below is -- in short, and omitting the class used to handle the PhotoData -- the code I developed to extract the files from the database. It is available in my GitHub repo, \emph{github.com/cad0p/maskrcnn-modanet} under the file arrange\_images.py
 
-\lstinputlisting[language=Python, firstline=37, lastline=62]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/arrange_images.py}
+\lstinputlisting[language=Python, firstline=43, lastline=68]{../maskrcnn-modanet/maskrcnn_modanet/arrange_images.py}
+% if this doesn't load, clone the maskrcnn-modanet repo in the same main folder (mine is called GitHub) 
+
+% if it is not aligned, just roll back to v1.0.1 and it will be all aligned.
 
 So basically I opened the ModaNet annotations and looked for the images that are used in the annotations (about 50 thousand). Those are the \emph{instances} dictionary, that has the same structure as the one explained above in \sref{s:ds-modanet-struct}.
 
@@ -333,7 +336,7 @@ To debug, I was advised by Leonardo to use \emph{ipdb}, a nice debugger that you
 
 The SQL string I formatted contains all the images ids in the annotations, so if the image is in the annotations, it will be extracted.
 
-\lstinputlisting[language=Python, firstline=90, lastline=99]{/Users/piercarlocadoppi/Documents/GitHub/maskrcnn-modanet/maskrcnn_modanet/arrange_images.py}
+\lstinputlisting[language=Python, firstline=96, lastline=105]{../maskrcnn-modanet/maskrcnn_modanet/arrange_images.py}
 
 Here I use the aforementioned PhotoData class to get the raw image file and save it to the desired img\_path location.
 
